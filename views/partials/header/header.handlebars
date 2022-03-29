@@ -1,0 +1,41 @@
+<div class="bg-gray-50 animate-none shadow border-b border-cyan-700">
+    <div class="container mx-auto xl:px-10 relative">
+        <div class="relative flex items-center justify-around md:justify-between h-16">
+
+            <div class="flex flex-1 items-center justify-center md:items-stretch md:justify-start">
+                <a href="/"><img class="block h-8 w-auto md:ml-2" src="" alt="Sunset in the mountains">
+                </a>
+                <div class="dropdown relative z-10 ml-4 hidden md:block ">
+                    <button class="txt font-medium text-key hover:text-cyan-800
+                     py-2 px-3 rounded inline-flex items-center hover:bg-gray-300">
+                        <span>Category</span>
+                    </button>
+                </div>
+            </div>
+            <div class=" text-cyan-700 hidden md:flex md:flex-1 md:items-center md:justify-end">
+                <form method="post" action="/search">
+                    <div class="rounded-full mr-2 bg-white flex items-center pl-5 pr-2 border border-cyan-700">
+                        <input type="search" name="searchContent" class="w-64 p-1 h-auto focus:outline-none " placeholder="Search">
+                        <button type="submit" class="fa fa-search px-2 cursor-pointer" aria-hidden="true"></button>
+                    </div>
+                </form>
+
+                <a href="/login" class="hiden md:block">
+                    <button
+                            class=" w-auto rounded-sm ml-4 p-2 px-3 hover:bg-gray-100 font-normal duration-500  border-solid border border-cyan-700 text-cyan-700">
+                        Login
+                    </button>
+                </a>
+
+                <a href="/register" class="hiden md:block">
+                    <button
+                            class=" w-auto rounded-sm ml-4 p-2 px-3 bg-cyan-700 hover:bg-cyan-900 text-white font-normal duration-500">
+                        Register
+                    </button>
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+</div>
