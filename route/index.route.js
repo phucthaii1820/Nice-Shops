@@ -14,4 +14,13 @@ router.get('/register', (req,res) => {
     res.render('register');
 });
 
+router.get('/profile', (req, res) => {
+    res.render('profile');
+})
+
+router.get('/post-saved', (req, res) => {
+    res.render('post-saved');
+})
+
+
 export default router;

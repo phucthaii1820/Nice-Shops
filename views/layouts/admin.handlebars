@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nice Shops</title>
+    <link rel = "icon" href =
+            ""
+          type = "image/x-icon">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
+            rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="relative min-h-screen bg-white font-Roboto">
+
+
+<div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-200">
+    <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false"
+         class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
+
+    <div :class="sidebarOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'"
+         class="fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform bg-white  overflow-y-auto lg:translate-x-0 lg:static lg:inset-0">
+        <div class="flex items-center justify-left h-16">
+            <div class="flex items-center">
+                <a href="/"><img class="block h-8 w-auto pl-5" src="" alt="Sunset in the mountains"></a>
+            </div>
+        </div>
+
+        <nav class="text-black">
+            <a class="flex items-center mt-4 py-2 px-6  hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100
+                {{#if aActive}}
+                       bg-gray-300 bg-opacity-25 text-cyan-700
+                {{/if}}" href="/admin/account">
+                <i class="fa fa-archive fa-lg" aria-hidden="true"></i>
+
+                <span class="mx-3">Account</span>
+            </a>
+            <a class="flex items-center mt-4 py-2 px-6  hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100
+                {{#if pActive}}
+                       bg-gray-300 bg-opacity-25 text-cyan-700
+                {{/if}}" href="/admin/product">
+                <i class="fa fa-archive fa-lg" aria-hidden="true"></i>
+
+                <span class="mx-3">Product</span>
+            </a>
+            <a class="flex items-center mt-4 py-2 px-6  hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100
+                {{#if rActive}}
+                       bg-gray-300 bg-opacity-25 text-cyan-700
+                {{/if}}" href="/admin/product-request">
+                <i class="fa fa-archive fa-lg" aria-hidden="true"></i>
+
+                <span class="mx-3">Product Request</span>
+            </a>
+        </nav>
+    </div>
+    <div class="flex-1 flex flex-col overflow-scroll">
+        <header class="flex justify-between items-center py-4 px-6 bg-white h-16 shadow-lg">
+            <div class="flex items-center">
+                <button @click="sidebarOpen = true"
+                        class="text-gray-500 border border-cyan-700 hover:bg-gray-500 lg:hidden p-3 py-2 rounded">
+                    <i class="fa fa-bars fa-lg text-gray-600" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <div class="block lg:hidden"><a href="/"><img src="https://res.cloudinary.com/horizon-web-online-auction/image/upload/v1641873047/horizon/logo/logo_fzzxyw.svg" alt="Sunset in the mountains" class="p-2 h-16"></a></div>
+
+        </header>
+        {{{body}}}
+    </div>
+</div>
+</body>
+
+{{{_sections.js}}}
+
+</html>
