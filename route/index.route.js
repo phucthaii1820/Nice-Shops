@@ -17,5 +17,13 @@ router.get('/register', (req,res) => {
 router.get('/editprofile', (req,res) => {
     res.render('editprofile');
 });
+router.get('/profile', (req, res) => {
+    res.render('profile');
+})
+
+router.get('/post-saved', (req, res) => {
+    res.render('post-saved');
+})
+
 
 export default router;
