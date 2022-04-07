@@ -25,5 +25,17 @@ router.get('/post-saved', (req, res) => {
     res.render('post-saved');
 })
 
+router.get('/category', (req, res) => {
+    res.render('category');
+})
+
+router.get('/search', (req, res) => {
+    res.render('search');
+})
+
+router.get('/upload', (req, res) => {
+    res.render('upload');
+})
+
 
 export default router;
