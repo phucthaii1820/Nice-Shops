@@ -4,9 +4,17 @@ import path from 'path'
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
+import { mongoose } from 'mongoose';
 import activate_route_middleware from './middlewares/routes.mdw.js';
 
+// connect MongoDB
+import {} from 'dotenv/config'
+mongoose.connect(process.env.DB_HOST, {useNewUrlParser: true});
+const db = mongoose.connection;
+db.on('error', () => console.error('Database connection failed'));
+db.once('open', async () => {
+  console.info('Database connection established...');
+});
 
 const app = express();
 
