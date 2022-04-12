@@ -21,7 +21,9 @@
                         <button type="submit" class="fa fa-search px-2 cursor-pointer" aria-hidden="true"></button>
                     </div>
                 </form>
-
+                {{#if user}}
+                    <a href="/profile">{{user.phone}}</a> 
+                {{else}}
                 <a href="/login" class="hiden md:block">
                     <button
                             class=" w-auto rounded-sm ml-4 p-2 px-3 hover:bg-gray-100 font-normal duration-500  border-solid border border-cyan-700 text-cyan-700">
@@ -35,6 +37,8 @@
                         Register
                     </button>
                 </a>
+                {{/if}}
+
 
             </div>
         </div>

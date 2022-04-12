@@ -1,5 +1,5 @@
 import express from "express";
-
+import registerController from '../controllers/register.controller.js';
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -37,5 +37,6 @@ router.get('/upload', (req, res) => {
     res.render('upload');
 })
 
+router.post('/register', registerController.post);
 
 export default router;

@@ -1,11 +1,12 @@
 import { mongoose } from 'mongoose';
-import { gender } from ('./config/gender');
-import { role } from ('./config/role');
+import gender from '../config/gender.js';
+import role from '../config/role.js';
 
 const accountSchema = new mongoose.Schema({
     phone:{
         type: String,
-        require: true
+        require: true,
+        unique: true
     },
     password:{
         type:String,
@@ -13,27 +14,31 @@ const accountSchema = new mongoose.Schema({
     },
     email:{
         type:String,
+        default:""
     },
     name:{
         type:String,
+        default: ""
     },
     gender:{
         type: Number,
         enume: Object.values(gender),
+        default: gender.Undefine
     },
     address:{
         type:String,
+        default: ""
     },
     cmnd:{
         type:String,
+        default: ""
     },
-    dob:{
-        type: Date,
-    },
+    dob:Date,
     role:{
         type:Number,
-        enume: Object.values(role)
+        enume: Object.values(role),
+        default: role.User
     }
 });
 
-module.exports = mongoose.model('Account',accountSchema,'Account');
+export default mongoose.model('Account',accountSchema,'Account');
