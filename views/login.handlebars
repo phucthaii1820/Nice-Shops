@@ -1,11 +1,14 @@
 <div class="m-auto flex flex-col w-96 shadow-2xl border-2 rounded-md bg-gray-50">
     <div class="px-5 py-14">
-        <form class="mb-3 text-sm">
+        {{#if error}}
+          <p class="text-red-600 text-xl mb-3">{{error}}</p>
+        {{/if}}
+        <form class="mb-3 text-sm" method="post" action="/login">
             <p class="mb-4 text-2xl text-yellow-500">Đăng nhập</p>
-            <input class="focus:outline-none border-t border-b border-l border-r p-2 w-full rounded-lg mb-4" type="tel"
-                placeholder="Nhập SĐT của bạn" autocomplete="off">
+            <input name="phone" class="focus:outline-none border-t border-b border-l border-r p-2 w-full rounded-lg mb-4" type="tel"
+                placeholder="Nhập SĐT của bạn" autocomplete="off" pattern="^\d{10}$" required="required">
             <div class="border-t border-b border-l border-r p-2 w-full rounded-lg flex flex-row mb-4 bg-white">
-                <input class="focus:outline-none w-full" type="password" autocomplete="nope" placeholder="Nhập mật khẩu">
+                <input name="password" class="focus:outline-none w-full" type="password" autocomplete="nope" placeholder="Nhập mật khẩu" required="required">
                 <button type="button">Hiện</button>
             </div>
             <button class="bg-yellow-500 text-white rounded-lg text-md py-2 w-full" type="submit">Đăng nhập</button>

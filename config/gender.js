@@ -1,5 +1,6 @@
 export default {
-    Man: 0,
-    Woman: 1,
-    Undefine: 2
+    Undefine: 0,
+    Man: 1,
+    Woman: 2,
+    Other: 3
 }

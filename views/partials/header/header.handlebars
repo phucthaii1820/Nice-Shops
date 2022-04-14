@@ -22,7 +22,35 @@
                     </div>
                 </form>
                 {{#if user}}
-                    <a href="/profile">{{user.phone}}</a> 
+                <div class="hidden md:block items-center relative dropdown mt-2 w-11">
+                    <div class="mb-2">
+                        <a href="/profile">
+                            <img alt="Avatar" src="https://cdn2.iconfinder.com/data/icons/audio-16/96/user_avatar_profile_login_button_account_member-512.png" class="h-10 w-10 rounded-full">
+                        </a>
+                    </div>
+                    <div class="dropdown-menu rounded-lg hidden absolute bg-white text-black w-32 text-right min-w-max -right-10" style="z-index:1">
+                        <ul class="bg-white rounded-lg overflow-hidden text-left" style="box-shadow: 0 2px 8px rgb(0 0 0 / 25%);">
+                            <li class="hover:bg-cyan-700">
+                                <a class="block p-2 hover:text-white space-x-3 font-medium" href="/profile">
+                                    <i class="far fa-user-circle"></i>
+                                    <span>Tài khoản</span>
+                                </a>
+                            </li>
+                             <li class="hover:bg-cyan-700">
+                                <a class="block p-2 hover:text-white space-x-3 font-medium" href="/profile">
+                                    <i class="fa fa-suitcase"></i>
+                                    <span>Quản lý bài đăng</span>
+                                </a>
+                            </li>
+                            <li class="hover:bg-cyan-700">
+                                <a class="block p-2 hover:text-white space-x-3 font-medium" href="/logout">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Đăng xuất</span>
+                                </a>
+                            </li>  
+                        </ul>
+                    </div>
+                </div>
                 {{else}}
                 <a href="/login" class="hiden md:block">
                     <button

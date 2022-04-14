@@ -5,27 +5,48 @@
             <img src="https://herrmans.eu/wp-content/uploads/2019/01/765-default-avatar.png"></img>
         </div>
         <div class="w-full">
-            <form class="pl-10">
+            <form class="pl-10" method="post" action="/editProfile" autocomplete="off">
                 <div>Họ và tên</div>
-                <input class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" type="text" id="name">
+                <input class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" type="text" id="name" name="name" value={{user.name}}>
                 <div>Số điện thoại</div>
-                <input class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" type="number" id="phone">
+                <input class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" type="text" id="phone" value={{user.phone}} disabled="true">
                 <div>Email</div>
-                <input class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" type="email" id="email">
+                <input class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" type="email" id="email" name="email" value={{user.email}}>
                 <div>Địa chỉ</div>
-                <input class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" type="text" id="address">
+                <input class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" type="text" id="address" name="address" value={{user.address}}>
                 <div>Số CMND/Thẻ căn cước</div>
-                <input class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" type="number" id="CMND">
+                <input class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" type="text" id="CMND" name="cmnd" value={{user.cmnd}}>
                 <div>Giới tính</div>
-                <select class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3">
-                    <option>Chưa có thông tin</option>
-                    <option>Nam</option>
-                    <option>Nữ</option>
-                    <option>Giới tính khác</option>
+                <select class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" id="gender" name="gender">
+                    {{#ifCond user.gender 0}}
+                        <option value=0 selected>Chưa có thông tin</option>
+                        <option value=1>Nam</option>
+                        <option value=2>Nữ</option>
+                        <option value=3>Giới tính khác</option>
+                    {{else}}
+                        {{#ifCond user.gender 1}}
+                            <option value=0>Chưa có thông tin</option>
+                            <option value=1 selected>Nam</option>
+                            <option value=2>Nữ</option>
+                            <option value=3>Giới tính khác</option>
+                        {{else}}
+                            {{#ifCond user.gender 2}}
+                                <option value=0>Chưa có thông tin</option>
+                                <option value=1>Nam</option>
+                                <option value=2 selected>Nữ</option>
+                                <option value=3>Giới tính khác</option>
+                            {{else}}
+                                <option value=0>Chưa có thông tin</option>
+                                <option value=1>Nam</option>
+                                <option value=2>Nữ</option>
+                                <option value=3 selected>Giới tính khác</option>
+                            {{/ifCond}}
+                        {{/ifCond}}
+                    {{/ifCond}}
                 </select>
                 <div>Ngày sinh</div>
-                <input class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-5" type="text" id="dob">
-                <button class="bg-yellow-500 text-white rounded-lg text-md py-2 w-full" type="button">Lưu thay đổi</button>
+                <input class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-5" type="date" id="dob" name="dob" value={{user.dob}}>
+                <button class="bg-yellow-500 text-white rounded-lg text-md py-2 w-full" type="submit">Lưu thay đổi</button>
             </form>
         </div>
     </div>

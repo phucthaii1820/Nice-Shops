@@ -8,8 +8,7 @@
                          alt="">
                 </div>
                 <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{this.user.Username}}</h1>
-                <ul
-                        class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
+                <ul class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
                     <li class="flex items-center py-3">
                         <span>Point</span>
                         <span class="ml-auto"><span
@@ -33,32 +32,30 @@
                     <div class="grid md:grid-cols-2 text-sm">
                         <div class="grid grid-cols-4">
                             <div class="px-4 py-2 font-semibold">Name</div>
-                            <div class="px-4 py-2 col-span-3">{{this.user.Name}}</div>
+                            <div class="px-4 py-2 col-span-3">{{user.name}}</div>
                         </div>
-                        {{#if this.user.Address}}
-                            <div class="grid grid-cols-4">
-                                <div class="px-4 py-2 font-semibold">Address</div>
-                                <div class="px-4 py-2 col-span-3">{{this.user.Address}}</div>
-                            </div>
-                        {{/if}}
-
-                        {{#if this.viewSelf}}
+                        <div class="grid grid-cols-4">
+                            <div class="px-4 py-2 font-semibold">Address</div>
+                            <div class="px-4 py-2 col-span-3">{{user.address}}</div>
+                        </div>
                             <div class="grid grid-cols-4">
                                 <div class="px-4 py-2 font-semibold">Email</div>
                                 <div class="px-4 py-2 col-span-3">
                                     <a class="text-blue-800"
-                                       href="mailto:{{this.user.Email}}">{{this.user.Email}}</a>
-                                </div>
+                                       href="mailto:{{user.email}}">{{user.email}}</a>
                             </div>
-                        {{/if}}
+                        </div>
                         <div class="grid grid-cols-4">
-                            {{#if this.user.DOB}}
-                                <div class="px-4 py-2 font-semibold">Birthday</div>
-                                <div class="px-4 py-2 col-span-3">{{ this.user.DOB}}</div>
-                            {{/if}}
+                            <div class="px-4 py-2 font-semibold">Phone</div>
+                            <div class="px-4 py-2 col-span-3">{{user.phone}}</div>
+                        </div>
+                        <div class="grid grid-cols-4">
+                            <div class="px-4 py-2 font-semibold">Birthday</div>
+                            <div class="px-4 py-2 col-span-3">{{user.dob}}</div>
                         </div>
                     </div>
                 </div>
+                <a href="/editProfile" class="py-2 px-3 mt-7 text-white bg-yellow-400 font-bold">Edit your profile</a>
             </div>
 
             {{#if this.hasReview}}
