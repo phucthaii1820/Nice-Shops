@@ -86,4 +86,8 @@ router.get('/logout',(req,res) => {
     res.redirect('/');
 });
 
+router.get('/postManage', (req,res) => {
+    res.render('postManage');
+});
+
 export default router;
