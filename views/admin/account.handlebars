@@ -22,7 +22,7 @@
                     <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                     <tr>
                         <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-left">Username</div>
+                            <div class="font-semibold text-left">Phone Number</div>
                         </th>
                         <th class="p-2 whitespace-nowrap">
                             <div class="font-semibold text-left">Email</div>
@@ -31,10 +31,7 @@
                             <div class="font-semibold text-left">Full name</div>
                         </th>
                         <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-left">Phone Number</div>
-                        </th>
-                        <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-left">Day register</div>
+                            <div class="font-semibold text-left">Address</div>
                         </th>
                         <th class="p-2 whitespace-nowrap">
                             <div class="font-semibold text-center">Edit</div>
@@ -42,26 +39,20 @@
                     </tr>
                     </thead>
                     <tbody class="text-sm divide-y divide-gray-100">
-                    {{#each this.user}}
+                    {{#each this.listAccount}}
                         <tr>
                             <td class="p-2 whitespace-nowrap">
-                                <a href="/profile/{{Username}}"
-                                   class="font-medium hover:text-key text-gray-800">
-                                    {{Username}}</a>
+                                    {{phone}}
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">{{Email}}</div>
+                                <div class="text-left">{{email}}</div>
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">{{Name}}</div>
+                                <div class="text-left">{{name}}</div>
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">{{Type}}</div>
+                                <div class="text-left">{{address}}</div>
                             </td>
-                            <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">{{ RegisterDate}}</div>
-                            </td>
-
                             <td class="p-2 flex justify-center">
                             </td>
                         </tr>

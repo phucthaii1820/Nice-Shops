@@ -1,11 +1,11 @@
 {{#if this.empty}}
     <div class="w-full max-w-4xl mx-auto mt-8">
-        No user.
+        No Product.
     </div>
 {{else}}
     <div class="w-full max-w-4xl mx-auto mt-8">
         <div class="flex justify-between items-center">
-            <div class="text-2xl font-semibold my-4 text-cyan-700">User</div>
+            <div class="text-2xl font-semibold my-4 text-cyan-700">Product</div>
 
             <div x-data="{ showModal : false }">
                 <button @click="showModal=true"
@@ -39,27 +39,22 @@
                     </tr>
                     </thead>
                     <tbody class="text-sm divide-y divide-gray-100">
-                    {{#each this.user}}
+                    {{#each this.listPost}}
                         <tr>
                             <td class="p-2 whitespace-nowrap">
-                                <a href="/profile/{{Username}}"
-                                   class="font-medium hover:text-key text-gray-800">
-                                    {{Username}}</a>
+                                <div class="text-left">{{title}}</div>
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">{{Email}}</div>
+                                <div class="text-left">{{userId.name}}</div>
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">{{Name}}</div>
+                                <div class="text-left">{{price}}</div>
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">{{Type}}</div>
+                                <div class="text-left">{{createdAt}}</div>
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">{{ RegisterDate}}</div>
-                            </td>
-
-                            <td class="p-2 flex justify-center">
+                                <div class="text-left"></div>
                             </td>
                         </tr>
                     {{/each}}

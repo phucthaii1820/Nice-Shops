@@ -18,13 +18,8 @@
         </div>
     </nav>
 
-    {{> product}}
-    {{> product}}
-    {{> product}}
-    {{> product}}
-    {{> product}}
-    {{> product}}
-    {{> product}}
-    {{> product}}
+    {{#each this.postData}}
+        {{> product}}
+    {{/each}}
 
 </div>
