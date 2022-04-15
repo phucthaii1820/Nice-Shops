@@ -1,8 +1,7 @@
-export default{
-    userAuthentication(req,res,next){
-        if(req.session.user){
-            res.locals.user = req.session.user;
-        }
+export const userAuth = async (req,res,next) => {
+    if (!req.session.user) {
+        return res.redirect('/login');
+    } else {
         next();
     }
 }

@@ -1,4 +1,5 @@
 import { mongoose } from 'mongoose';
+import statusProduct  from '../config/statusProduct.js';
 
 const postSchema = new mongoose.Schema({
     title:{
@@ -11,13 +12,15 @@ const postSchema = new mongoose.Schema({
         type:Number
     },
     status:{
-        type:Number
+        type:Number,
+        enume: Object.values(statusProduct)
     },
     statusPost:{
-        type:Number
+        type:Number,
+        default:0
     },
     Image:[{
-        type:String
+        type:Object,
     }],
     userId:{
         type: mongoose.Schema.Types.ObjectId,
@@ -25,7 +28,7 @@ const postSchema = new mongoose.Schema({
         require: true
     },
     category:{
-        type: String,
+        type: Number,
         require: true
     }
 },{
