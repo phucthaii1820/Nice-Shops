@@ -20,6 +20,14 @@ export default {
         });
         return user;
     },
+    async createNewAccountByG(phone, email, name){
+        const user = await Account.create({
+            phone,
+            email,
+            name
+        });
+        return user;
+    },
     async checkExistAccount(userPhone){
         await Account.exists({phone: userPhone});
     },
@@ -29,6 +37,12 @@ export default {
         if (!crypto.comparePassword(password,user.password)) return null;
         return user;
     },
+    async getUserByEmail(userEmail) {
+        const user = await Account.findOne({email: userEmail}).lean();
+        if (!user) return null;
+        return user;
+    }
+    ,
     async getUserById(userId){
         const user = await Account.findById(userId).lean();
         if (!user) return null;

@@ -5,6 +5,9 @@ import multer from 'multer';
 import postService from "../service/post.service.js";
 import fs from "fs";
 
+import '../auth/authG.js'
+import passport from "passport";
+
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -140,5 +143,42 @@ router.get('/logout',(req,res) => {
 router.get('/postManage', userAuth, (req,res) => {
     res.render('postManage');
 });
+
+router.get('/auth/google', passport.authenticate('google', { scope: [ 'email', 'profile' ] }
+));
+
+router.get('/auth/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    async function (req, res) {
+        const email = req.user.emails[0].value
+        const user = await accountService.getUserByEmail(email);
+        if(user === null) {
+
+            req.session.Gmail = {email: req.user.emails[0].value, name: req.user.displayName, isRegister: true}
+            console.log(req.session.Gmail)
+            res.redirect('/update-phone');
+        }
+        else {
+            req.session.user = user;
+            res.redirect('/');
+        }
+
+    }
+);
+
+router.get('/update-phone', (req, res) => {
+    res.render('update-phone');
+})
+
+router.post('/update-phone', async (req, res) => {
+    if(await accountService.checkExistAccount(req.body.phone)){
+        res.render('register', { error: 'Your phone is already taken!' });
+    }else{
+        const user = await accountService.createNewAccountByG(req.body.phone,req.session.Gmail.email,req.session.Gmail.name);
+        console.log(user);
+        req.session.user = user;
+        res.redirect('/');
+    }
+})
 
 export default router;
