@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" x-init="$watch('darkMode', val => localStorage.setItem('dark', val))"
+    x-data="{darkMode: localStorage.dark === 'true' || (!('dark' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches), dialogPanels: []}"
+    :class="darkMode ? 'dark' : ''" lang='en'>
+
+<style>
+    * {
+        box-sizing: border-box
+    }
+
+    body {
+        font-family: Verdana, sans-serif;
+        margin: 0
+    }
+
+    .mySlides {
+        display: none
+    }
+
+    img {
+        vertical-align: middle;
+    }
+
+    /* Slideshow container */
+    .slideshow-container {
+        max-width: 1000px;
+        position: relative;
+        margin: auto;
+    }
+
+    /* Next & previous buttons */
+    .prev,
+    .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: grey;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+    }
+
+    /* Position the "next button" to the right */
+    .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+    }
+
+    /* On hover, add a black background color with a little bit see-through */
+    .prev:hover,
+    .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Caption text */
+    .text {
+        color: #f2f2f2;
+        font-size: 15px;
+        padding: 8px 12px;
+        position: absolute;
+        bottom: 8px;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Number text (1/3 etc) */
+    .numbertext {
+        color: #f2f2f2;
+        font-size: 12px;
+        padding: 8px 12px;
+        position: absolute;
+        top: 0;
+    }
+
+    /* The dots/bullets/indicators */
+    .dot {
+        cursor: pointer;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.6s ease;
+    }
+
+    .active,
+    .dot:hover {
+        background-color: #717171;
+    }
+
+    /* Fading animation */
+    .fade {
+        animation-name: fade;
+        animation-duration: 1.5s;
+    }
+
+    @keyframes fade {
+        from {
+            opacity: .4
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+
+    /* On smaller screens, decrease text size */
+    @media only screen and (max-width: 300px) {
+
+        .prev,
+        .next,
+        .text {
+            font-size: 11px
+        }
+    }
+</style>
+
+<body class="font-body antialiased text-[#64748b] bg-[#FFFFFF] dark:text-[#94a3b8] dark:bg-[#0f172a]">
+    <div class="bg-white py-6 sm:py-8 lg:py-12">
+        <div class="max-w-screen-lg px-4 mx-auto xl:max-w-screen-lg">
+            <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-1">
+                <div class="space-y-4 xl: ">
+
+                    <div class="slideshow-container">
+
+                        <div class="mySlides fade bg-gray-100 rounded-lg overflow-hidden relative xl:block xl:w-1/2 xl:min-w-0 xl:max-w-none xl: xl:left-72">
+                            <img src="https://cdn.chotot.com/w832615HnyWhS5cLE1da4MDirWAcEy02CkiXysqPJg8/preset:view/plain/2a4935e0c5a4a17eda69409ae3a9bf34-2750723190001152151.jpg"
+                                style="width:100%">
+                        </div>
+
+                        <div class="mySlides fade bg-gray-100 rounded-lg overflow-hidden relative xl:block xl:w-1/2 xl:min-w-0 xl:max-w-none xl: xl:left-72">
+                            <img src="https://cdn.chotot.com/BG5cqWLWGmN3-tMHasIn9BaVmGO1Crbl0j_-A03RQg0/preset:view/plain/9113ee9a3cb1952632c55a4c0e4d6204-2750723190951937573.jpg"
+                                style="width:100%">
+                        </div>
+
+                        <div class="mySlides fade bg-gray-100 rounded-lg overflow-hidden relative xl:block xl:w-1/2 xl:min-w-0 xl:max-w-none xl: xl:left-72">
+                            <img src="https://cdn.chotot.com/SXGchfhpHRWBzlHjqvlc813J6q1iMdBNTxtJF5LTMuY/preset:view/plain/03fc86c02b55024dc794498539eb8b7e-2750723191994386580.jpg"
+                                style="width:100%">
+                        </div>
+
+                        <a class="prev" onclick="plusSlides(-1)">❮</a>
+                        <a class="next" onclick="plusSlides(1)">❯</a>
+
+                    </div>
+                    <br>
+
+                    <div style="text-align:center">
+                        <span class="dot" onclick="currentSlide(1)"></span>
+                        <span class="dot" onclick="currentSlide(2)"></span>
+                        <span class="dot" onclick="currentSlide(3)"></span>
+                    </div>
+
+                    <script>
+                        let slideIndex = 1;
+                        showSlides(slideIndex);
+
+                        function plusSlides(n) {
+                            showSlides(slideIndex += n);
+                        }
+
+                        function currentSlide(n) {
+                            showSlides(slideIndex = n);
+                        }
+
+                        function showSlides(n) {
+                            let i;
+                            let slides = document.getElementsByClassName("mySlides");
+                            let dots = document.getElementsByClassName("dot");
+                            if (n > slides.length) { slideIndex = 1 }
+                            if (n < 1) { slideIndex = slides.length }
+                            for (i = 0; i < slides.length; i++) {
+                                slides[i].style.display = "none";
+                            }
+                            for (i = 0; i < dots.length; i++) {
+                                dots[i].className = dots[i].className.replace(" active", "");
+                            }
+                            slides[slideIndex - 1].style.display = "block";
+                            dots[slideIndex - 1].className += " active";
+                        }
+                    </script>
+
+                    <div class="md:py-8 xl: xl:inset-y-5 xl:relative xl:float-right">
+                        <div class="mb-2 md:mb-3">
+                            <h2 class="text-gray-800 text-2xl font-bold lg:text-3xl xl:text-xl">Họ và Tên người bán</h2>
+                        </div>
+                        <div class="flex gap-2.5"><a href="#"
+                                class="inline-block flex-1 sm:flex-none bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">Hiển
+                                thị số điện thoại</a></div>
+                    </div>
+                    <div class="md:py-8">
+                        <div class="mb-2 md:mb-3">
+                            <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold">Tiêu đề</h2>
+                        </div>
+                        <div class="mb-4">
+                            <div class="flex items-end gap-2"><span
+                                    class="text-gray-800 text-xl font-bold md:text-2xl xl:text-red-700">15.000.000
+                                    đ</span><a href="#"
+                                    class="inline-block bg-gray-200 hover:bg-gray-300 focus-visible:ring ring-indigo-300 text-gray-500 active:text-gray-700 text-sm font-semibold text-center rounded-lg outline-none transition duration-100 px-4 py-3 md:text-base xl:text-center"><span><svg
+                                            class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                        </svg></span></a></div>
+                        </div>
+                        <div class="mt-10 md:mt-16 lg:mt-20 xl:m-0">
+                            <div class="text-gray-800 text-lg font-semibold mb-3">Thông tin chi tiết</div>
+                            <p class="text-gray-500"><span>This is a section of some simple filler text, also known as
+                                    placeholder text. It shares some characteristics of a real written text but is
+                                    random or otherwise generated. It may be used to display a sample of fonts or
+                                    generate text for testing.</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- AlpineJS Library -->
+    <script defer src="https://unpkg.com/alpinejs@3.9.0/dist/cdn.min.js"></script>
+</body>
+
+</html>

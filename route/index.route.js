@@ -123,6 +123,14 @@ router.get('/register', (req,res) => {
     res.render('register');
 });
 
+router.get('/detail', (req,res) => {
+    res.render('detail');
+});
+
+router.get('/manage', (req,res) => {
+    res.render('manage');
+});
+
 router.post('/register', async(req,res) => {
     if(await accountService.checkExistAccount(req.body.phone)){
         console.log('Username or email is already taken!');
