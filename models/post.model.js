@@ -20,7 +20,8 @@ const postSchema = new mongoose.Schema({
         default:0
     },
     Image:[{
-        type:Object,
+        data: Buffer,
+        contentType: String
     }],
     userId:{
         type: mongoose.Schema.Types.ObjectId,
@@ -28,8 +29,9 @@ const postSchema = new mongoose.Schema({
         require: true
     },
     category:{
-        type: Number,
-        require: true
+        type:mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+        require:true
     }
 },{
     timestamps: true

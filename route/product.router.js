@@ -6,7 +6,6 @@ const router = express.Router();
 router.get('/byCat/:id', async (req, res) => {
     const CatID = req.params.id || 0;
     const postData = await getListPostByCategory(CatID);
-
     res.render('search', {
         postData
     })

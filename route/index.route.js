@@ -2,7 +2,7 @@ import express from "express";
 import accountService from "../service/account.service.js";
 import {userAuth} from '../middlewares/userAuthenticate.mdw.js';
 import multer from 'multer';
-import postService from "../service/post.service.js";
+import productSevice from "../service/product.sevice.js";
 import fs from "fs";
 
 import '../auth/authG.js'
@@ -112,11 +112,11 @@ router.post('/upload', userAuth, upload.array('image'), async(req,res) => {
 
         let finalImg = {
             contentType: item.mimetype,
-            image:  new Buffer.from(encode_image, 'base64')
+            data:  new Buffer.from(encode_image, 'base64')
         };
         listImg.push(finalImg);
     });
-    await postService.addNewPost(req.session.user._id,req.body,listImg);
+    await productSevice.addNewPost(req.session.user._id,req.body,listImg);
 })
 
 router.get('/register', (req,res) => {
