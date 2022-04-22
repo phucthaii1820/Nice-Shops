@@ -24,6 +24,15 @@ export const getListPost = async () => {
 }
 
 export default {
+    async getListPostNotImg (){
+        const listPost = await Post.find().select ("-Image").populate("userId", "name address");
+        return listPost;
+    },
+
+    async deleteProductById(_id) {
+        await Post.deleteOne( { _id } )
+    },
+
     async addNewPost(userId,detail,image){
         const categoryId = await categoryService.getIdCategoryByBrandId(parseInt(detail.category));
         const post = await Post.create({

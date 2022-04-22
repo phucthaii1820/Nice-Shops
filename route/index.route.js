@@ -143,6 +143,13 @@ router.post('/register', async(req,res) => {
     }
 });
 
+router.get("/is-available", async (req, res) => {
+    if(await accountService.checkExistAccount(req.query.user)) {
+        return res.json(false);
+    }
+    return res.json(true);
+})
+
 router.get('/logout',(req,res) => {
     req.session.destroy();
     res.redirect('/');

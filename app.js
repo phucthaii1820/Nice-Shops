@@ -1,5 +1,6 @@
 import dotenv  from "dotenv"
 import express from 'express';
+import numeral from 'numeral';
 import Handlebars from 'handlebars';
 import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
 import exphs from 'express-handlebars';
@@ -11,6 +12,8 @@ import { mongoose } from 'mongoose';
 import activate_route_middleware from './middlewares/routes.mdw.js';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
+import moment from "moment";
+import handlebars_sections from "express-handlebars-sections";
 
 const app = express();
 
@@ -35,7 +38,22 @@ db.once('open', async () => {
 
 //Create if condition for engine handlebar
 const hbs = exphs.create({
-  handlebars: allowInsecurePrototypeAccess(Handlebars)
+  handlebars: allowInsecurePrototypeAccess(Handlebars),
+  helpers: {
+    format_date(val) {
+      return moment(val).format('DD-MM-YYYY, hh:mm:ss');
+    },
+
+    format_no_h(val) {
+      if(val != null)
+        return moment(val).format('DD-MM-YYYY');
+    },
+
+    Format_price(val) {
+        return numeral(val).format('0,0');
+    },
+    section: handlebars_sections()
+  }
 });
 
 app.engine('handlebars', hbs.engine);

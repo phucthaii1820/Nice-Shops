@@ -3,16 +3,62 @@
         No user.
     </div>
 {{else}}
+    <form class="hidden" id="deleteAccount" action = "/admin/product/deleteAccount" method = "post">
+        <input x-show ="false" name = "id" id="txtAccountID">
+    </form>
+
     <div class="w-full max-w-4xl mx-auto mt-8">
         <div class="flex justify-between items-center">
-            <div class="text-2xl font-semibold my-4 text-cyan-700">User</div>
+            <div class="text-2xl font-semibold my-4 text-yellow-500">User</div>
 
             <div x-data="{ showModal : false }">
                 <button @click="showModal=true"
-                        class="font-semibold text-md  px-4 py-1  border border-cyan-700 ml-2 bg-white hover:bg-gray-300"><i
+                        class="font-semibold text-md  px-4 py-1  border border-yellow-500 ml-2 bg-white hover:bg-gray-300"><i
                         class="fa fa-plus" aria-hidden="true">
                 </i> ADD
                 </button>
+                <div x-show="showModal"
+                     class="fixed flex items-center justify-center overflow-auto z-50 bg-black bg-opacity-40 left-0 right-0 top-0 bottom-0">
+                    <div x-show="showModal"
+                         class="bg-white shadow-2xl p-6 pb-4  w-auto mx-10 border border-yellow-500 rounded"
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 transform scale-90"
+                         x-transition:enter-end="opacity-100 transform scale-100"
+                         x-transition:leave="transition ease-in duration-300"
+                         x-transition:leave-start="opacity-100 transform scale-100"
+                         x-transition:leave-end="opacity-0 transform scale-90">
+
+                        <form id="addForm" method="post" action="/admin/account/add">
+                            <div class="flex justify-between font-normal text-base space-x-8 mt-2">
+                                <div>Số Điện Thoại</div>
+                                <input class="border border-yellow-500 form-control"
+                                       type="tel"
+                                       id="txtPhone" name="phone">
+                            </div>
+                            <div class="flex justify-between font-normal text-base mt-2">
+                                <div>Password</div>
+                                <input type="password" class="form-control border border-yellow-500"
+                                       id="txtPassword" name="password">
+                            </div>
+
+                            <div class="flex justify-between font-normal text-base mt-2">
+                                <div class="mr-2">Confirm password</div>
+                                <input id="txtConfirmPassword"
+                                       type="password" class="form-control border border-yellow-500">
+                            </div>
+
+                            <div class=" flex justify-end mt-4 space-x-4">
+                                <button type="submit" id="btnAdd" value="Save"
+                                        class="font-semibold text-md hover:bg-gray-200 px-6 py-2  border border-yellow-500">
+                                    Add
+                                </button>
+                                <button @click="showModal = !showModal" type="button"
+                                        class="font-semibold text-md hover:bg-red-800 px-6 py-2 text-white bg-red-700">Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -22,19 +68,28 @@
                     <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                     <tr>
                         <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-left">Phone Number</div>
+                            <div class="font-semibold text-left">Số Điện Thoại</div>
                         </th>
                         <th class="p-2 whitespace-nowrap">
                             <div class="font-semibold text-left">Email</div>
                         </th>
                         <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-left">Full name</div>
+                            <div class="font-semibold text-left">Họ Tên</div>
                         </th>
                         <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-left">Address</div>
+                            <div class="font-semibold text-left">Địa Chỉ</div>
                         </th>
                         <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-center">Edit</div>
+                            <div class="font-semibold text-left">Giới Tính</div>
+                        </th>
+                        <th class="p-2 whitespace-nowrap">
+                            <div class="font-semibold text-left">Cmnd</div>
+                        </th>
+                        <th class="p-2 whitespace-nowrap">
+                            <div class="font-semibold text-left">Ngày Sinh</div>
+                        </th>
+                        <th class="p-2 whitespace-nowrap">
+                            <div class="font-semibold text-center"></div>
                         </th>
                     </tr>
                     </thead>
@@ -53,7 +108,19 @@
                             <td class="p-2 whitespace-nowrap">
                                 <div class="text-left">{{address}}</div>
                             </td>
-                            <td class="p-2 flex justify-center">
+                            <td class="p-2 whitespace-nowrap">
+                                <div class="text-left">{{genderTemp}}</div>
+                            </td>
+                            <td class="p-2 whitespace-nowrap">
+                                <div class="text-left">{{cmnd}}</div>
+                            </td>
+                            <td class="p-2 whitespace-nowrap">
+                                <div class="text-left">{{format_no_h dob}}</div>
+                            </td>
+                            <td  class="p-2 whitespace-nowrap">
+                                <button data-id="{{_id}}" class="delete font-semibold cursor-pointer text-md hover:bg-red-800 px-6 py-2 text-white  bg-red-700">
+                                    Delete
+                                </button>
                             </td>
                         </tr>
                     {{/each}}
@@ -63,3 +130,67 @@
         </div>
     </div>
 {{/if}}
+
+<script>
+    $(".delete").click(function (e) {
+        Swal.fire({
+            title: 'Bạn chắc chắn muốn xóa?',
+            showCancelButton: true,
+            confirmButtonText: 'Xóa',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire('Xóa thành công!')
+                        .then((value) =>{
+                            const id = $(this).attr("data-id");
+                            $('#txtAccountID').val(id);
+                            $('#deleteAccount').submit();
+                        });
+            }
+        })
+    })
+</script>
+
+<script>
+    $('#addForm').on('submit', function (event) {
+        event.preventDefault();
+        const phone = document.getElementById('txtPhone').value;
+        const password = document.getElementById('txtPassword').value;
+        const confirm_password = document.getElementById('txtConfirmPassword').value;
+        // Validate password
+        if (!password) {
+            Swal.fire('Chưa có password');
+            return;
+        }
+        if (!confirm_password) {
+            Swal.fire('Chưa có confirm password!');
+            return;
+        }
+        if (password !== confirm_password) {
+            Swal.fire("Password và confrim password không giống nhau!");
+            return;
+        }
+        // Ajax
+        $.getJSON(`/is-available?user=${phone}`, function (data) {
+            if (data === false) {
+                Swal.fire('Số điện thoại đã tồn tại');
+                return;
+            } else {
+                Swal.fire("Thêm thành công").then((value) => {
+                    $('#addForm').off('submit').submit();});
+            }
+        });
+    });
+    $('#editForm').on('submit', function (event) {
+        event.preventDefault();
+        const name = document.getElementById('editName').value;
+        if (name.length<1) {
+            swal("Name must be filled in!");
+            return;
+        } else {
+            swal("Successful").then((value) => {
+                $('#editForm').off('submit').submit();});
+        }
+    });
+    $('#txtEmail').select();
+    $('#updUsername').select();
+</script>

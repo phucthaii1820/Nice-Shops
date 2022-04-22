@@ -14,6 +14,9 @@ export const getAcountById = async (idAccount) => {
 }
 
 export default {
+    async deleteAccountById(_id) {
+        await Account.deleteOne( { _id } )
+    },
     async createNewAccount(phone, password){
         const user = await Account.create({
             phone, password: crypto.hashPassword(password) 
@@ -29,7 +32,10 @@ export default {
         return user;
     },
     async checkExistAccount(userPhone){
-        await Account.exists({phone: userPhone});
+       const user = await Account.exists({phone: userPhone});
+       if (user)
+           return true;
+        return false;
     },
     async authenticate(phone, password){
         const user = await Account.findOne({phone: phone}).lean();
