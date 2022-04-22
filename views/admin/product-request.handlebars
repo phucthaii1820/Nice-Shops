@@ -1,19 +1,19 @@
 {{#if this.empty}}
     <div class="w-full max-w-4xl mx-auto mt-8">
-        No Product Request.
+        No Product.
     </div>
 {{else}}
+    <form class="hidden" id="confirmPost" action = "/admin/product-request/confirmPost" method = "post">
+        <input x-show ="false" name = "ProID" id="txtProID">
+    </form>
+
+    <form class="hidden" id="refusePost" action = "/admin/product-request/refusePost" method = "post">
+        <input x-show ="false" name = "ProID" id="txtProID1">
+    </form>
+
     <div class="w-full max-w-4xl mx-auto mt-8">
         <div class="flex justify-between items-center">
             <div class="text-2xl font-semibold my-4 text-cyan-700">Product Request</div>
-
-            <div x-data="{ showModal : false }">
-                <button @click="showModal=true"
-                        class="font-semibold text-md  px-4 py-1  border border-cyan-700 ml-2 bg-white hover:bg-gray-300"><i
-                        class="fa fa-plus" aria-hidden="true">
-                </i> ADD
-                </button>
-            </div>
         </div>
 
         <div class="p-3 bg-white shadow-lg rounded-sm border border-gray-200 mt-4">
@@ -22,44 +22,50 @@
                     <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                     <tr>
                         <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-left">Product's Name</div>
+                            <div class="font-semibold text-left">Tên Sản Phẩm</div>
                         </th>
                         <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-left">Seller's Name</div>
+                            <div class="font-semibold text-left">Người Bán</div>
                         </th>
                         <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-left">Price</div>
+                            <div class="font-semibold text-left">Giá</div>
                         </th>
                         <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-left">Sale date</div>
+                            <div class="font-semibold text-left">Ngày Bán</div>
                         </th>
                         <th class="p-2 whitespace-nowrap">
-                            <div class="font-semibold text-center">Edit</div>
+                            <div class="font-semibold text-left">Tình trạng</div>
+                        </th>
+                        <th class="p-2 whitespace-nowrap">
+                            <div class="font-semibold text-center"></div>
                         </th>
                     </tr>
                     </thead>
                     <tbody class="text-sm divide-y divide-gray-100">
-                    {{#each this.user}}
+                    {{#each this.listPost}}
                         <tr>
                             <td class="p-2 whitespace-nowrap">
-                                <a href="/profile/{{Username}}"
-                                   class="font-medium hover:text-key text-gray-800">
-                                    {{Username}}</a>
+                                <div class="text-left">{{title}}</div>
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">{{Email}}</div>
+                                <div class="text-left">{{userId.name}}</div>
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">{{Name}}</div>
+                                <div class="text-left">{{Format_price price}}</div>
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">{{Type}}</div>
+                                <div class="text-left">{{format_no_h createdAt}}</div>
                             </td>
                             <td class="p-2 whitespace-nowrap">
-                                <div class="text-left">{{ RegisterDate}}</div>
+                                <div class="text-left">{{statusTemp}}</div>
                             </td>
-
-                            <td class="p-2 flex justify-center">
+                            <td class="p-2 whitespace-nowrap">
+                                <button data-id="{{_id}}"  class="confirm font-semibold cursor-pointer text-md hover:bg-red-800 px-6 py-2 text-white  bg-yellow-700">
+                                    Xác nhận
+                                </button>
+                                <button data-id="{{_id}}"  class="refuse font-semibold cursor-pointer text-md hover:bg-red-800 px-6 py-2 text-white  bg-red-700">
+                                    Từ chối
+                                </button>
                             </td>
                         </tr>
                     {{/each}}
@@ -69,3 +75,37 @@
         </div>
     </div>
 {{/if}}
+
+<script>
+    $(".confirm").click(function (e) {
+        Swal.fire({
+            title: 'Bạn chắc chắn muốn xác nhận?',
+            showCancelButton: true,
+            confirmButtonText: 'Xác nhận',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire('Xác nhận thành công!', '', 'success').then((value) =>{
+                    const id = $(this).attr("data-id");
+                    $('#txtProID').val(id);
+                    $('#confirmPost').submit();
+                });
+            }
+        })
+    })
+
+    $(".refuse").click(function (e) {
+        Swal.fire({
+            title: 'Bạn chắc chắn muốn từ chối?',
+            showCancelButton: true,
+            confirmButtonText: 'Từ chối',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire('Từ chối thành công!', '', 'success').then((value) =>{
+                    const id = $(this).attr("data-id");
+                    $('#txtProID1').val(id);
+                    $('#refusePost').submit();
+                });
+            }
+        })
+    })
+</script>

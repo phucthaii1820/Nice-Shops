@@ -7,6 +7,14 @@ const getListPost = async () => {
 }
 
 export default {
+    async changStatusPostById(_id, statusPost) {
+        await Post.updateOne({ _id }, { $set: { statusPost } })
+    },
+
+    async getListPostByStatusNotImg( statusPost ) {
+        const listPost = await Post.find({ statusPost }).select("-Image").populate("userId", "name address").lean();
+        return listPost;
+    },
     async getListPostNotImg() {
         const listPost = await Post.find().select("-Image").populate("userId", "name address");
         return listPost;

@@ -59,6 +59,15 @@ router.get('/product', async (req, res) => {
             listPost[i].statusTemp = "Mới"
         else
             listPost[i].statusTemp = "Cũ"
+
+        if (listPost[i].statusPost == 0 )
+            listPost[i].statusPostTemp = "Đang chờ xem xét"
+        else if (listPost[i].statusPost == 1 )
+            listPost[i].statusPostTemp = "Đã duyệt"
+        else if (listPost[i].statusPost == 2 )
+            listPost[i].statusPostTemp = "Bị từ chối"
+        else
+            listPost[i].statusPostTemp = "Đã bị ẩn"
     }
 
     res.render('admin/product', {
@@ -79,9 +88,20 @@ router.post('/product/deleteAccount', async (req,res) => {
     res.redirect('/admin/Account');
 })
 
-router.get('/product-request', (req, res) => {
+router.get('/product-request', async (req, res) => {
     let rActive = true;
+
+    const listPost = await productSevice.getListPostByStatusNotImg(0);
+
+    for(let i = 0; i < listPost.length; i++) {
+        if(listPost[i].status == 0)
+            listPost[i].statusTemp = "Mới"
+        else
+            listPost[i].statusTemp = "Cũ"
+    }
+
     res.render('admin/product-request', {
+        listPost,
         rActive,
         layout: 'admin.handlebars'
     });
@@ -90,6 +110,17 @@ router.get('/product-request', (req, res) => {
 router.post('/account/add', async (req, res) => {
     await accountSevice.createNewAccount(req.body.phone, req.body.password);
     res.redirect('/admin/account');
+})
+
+
+router.post('/product-request/confirmPost', async (req, res) => {
+    await productSevice.changStatusPostById(req.body.ProID, 1);
+    res.redirect('/admin/product-request')
+})
+
+router.post('/product-request/refusePost', async (req, res) => {
+    await productSevice.changStatusPostById(req.body.ProID, 2);
+    res.redirect('/admin/product-request')
 })
 
 export default router;
