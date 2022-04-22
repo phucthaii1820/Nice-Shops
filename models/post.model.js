@@ -1,4 +1,5 @@
 import { mongoose } from 'mongoose';
+import statusPost from '../config/statusPost.js';
 import statusProduct  from '../config/statusProduct.js';
 
 const postSchema = new mongoose.Schema({
@@ -17,12 +18,10 @@ const postSchema = new mongoose.Schema({
     },
     statusPost:{
         type:Number,
-        default:0
+        enum: Object.values(statusPost),
+        default: statusPost.pending_review
     },
-    Image:[{
-        data: Buffer,
-        contentType: String
-    }],
+    Image:[Buffer],
     userId:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Account',
@@ -32,7 +31,8 @@ const postSchema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref: 'Category',
         require:true
-    }
+    },
+    address:String
 },{
     timestamps: true
 });

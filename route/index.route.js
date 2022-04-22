@@ -7,6 +7,8 @@ import fs from "fs";
 
 import '../auth/authG.js'
 import passport from "passport";
+import { resolveSoa } from "dns";
+import sharp from "sharp";
 
 const router = express.Router();
 
@@ -92,43 +94,31 @@ router.get('/upload', userAuth, (req, res) => {
     res.render('upload');
 });
 
-const storage = multer.diskStorage({
-    destination: function(req,file,cb){
-      cb(null,'uploads')
-    },
-    filename: function(req,file,cb){
-      cb(null,file.fieldname + '-' + Date.now())
-    }
-});
+const storage = multer.memoryStorage();
+
 const upload = multer({storage:storage});
 
-router.post('/upload', userAuth, upload.array('image'), async(req,res) => {
-    const image = req.files;
-    console.log(image);
-    let listImg = [];
-    image.forEach(function(item){
-        let img = fs.readFileSync(item.path);
-        let encode_image = img.toString('base64');
+const imageConfig = {
+    quality: 70,
+    chromaSubsampling: '4:4:4',
+    force: true
+}
 
-        let finalImg = {
-            contentType: item.mimetype,
-            data:  new Buffer.from(encode_image, 'base64')
-        };
-        listImg.push(finalImg);
-    });
-    await productSevice.addNewPost(req.session.user._id,req.body,listImg);
+const compress = (image) => 
+        sharp(image)
+            .jpeg(imageConfig)
+            .toBuffer()
+            .then(data => data)
+            .catch(err => {throw err})
+
+router.post('/upload', userAuth, upload.array('image'), async(req,res) => {
+    const image = await Promise.all(req.files.map(async image => await compress(image.buffer)));
+    console.log(image);
+    await productSevice.addNewPost(req.session.user._id,req.body,image);
 })
 
 router.get('/register', (req,res) => {
     res.render('register');
-});
-
-router.get('/detail', (req,res) => {
-    res.render('detail');
-});
-
-router.get('/manage', (req,res) => {
-    res.render('manage');
 });
 
 router.post('/register', async(req,res) => {
@@ -153,10 +143,6 @@ router.get("/is-available", async (req, res) => {
 router.get('/logout',(req,res) => {
     req.session.destroy();
     res.redirect('/');
-});
-
-router.get('/postManage', userAuth, (req,res) => {
-    res.render('postManage');
 });
 
 router.get('/auth/google', passport.authenticate('google', { scope: [ 'email', 'profile' ] }
@@ -194,6 +180,36 @@ router.post('/update-phone', async (req, res) => {
         req.session.user = user;
         res.redirect('/');
     }
+})
+
+router.get('/manage/:status', async(req,res) => {
+    const status = req.params.status;
+    let listPost = null;
+    if (status === "pending_review"){
+        listPost = await productSevice.getListPostByStatus(0);
+    } else if(status === "published"){
+        listPost = await productSevice.getListPostByStatus(1);
+    } else if (status === "refused"){
+        listPost = await productSevice.getListPostByStatus(2);
+    } else if (status === "hidden"){
+        listPost = await productSevice.getListPostByStatus(3);
+    }
+    res.render('manage', {
+        listPost
+    })
+})
+
+router.get('/manage', (req,res) => {
+    res.render('manage');
+})
+
+router.get('/updatePost/:id', async(req,res) => {
+    const id = req.params.id;
+    const post = await productSevice.getPostById("manage",id);
+    res.render("updatePost",{post});
+})
+router.post('/update', async(req,res) => {
+
 })
 
 export default router;

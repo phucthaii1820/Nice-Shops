@@ -128,22 +128,12 @@
                 <div class="space-y-4 xl: ">
 
                     <div class="slideshow-container">
-
+                        {{#each post.Image}}
                         <div class="mySlides fade bg-gray-100 rounded-lg overflow-hidden relative xl:block xl:w-1/2 xl:min-w-0 xl:max-w-none xl: xl:left-72">
-                            <img src="https://cdn.chotot.com/w832615HnyWhS5cLE1da4MDirWAcEy02CkiXysqPJg8/preset:view/plain/2a4935e0c5a4a17eda69409ae3a9bf34-2750723190001152151.jpg"
-                                style="width:100%">
+                            <img src="data:image/jpeg;base64,{{this}}"
+                                style="height: 600px; object-fit:fill">
                         </div>
-
-                        <div class="mySlides fade bg-gray-100 rounded-lg overflow-hidden relative xl:block xl:w-1/2 xl:min-w-0 xl:max-w-none xl: xl:left-72">
-                            <img src="https://cdn.chotot.com/BG5cqWLWGmN3-tMHasIn9BaVmGO1Crbl0j_-A03RQg0/preset:view/plain/9113ee9a3cb1952632c55a4c0e4d6204-2750723190951937573.jpg"
-                                style="width:100%">
-                        </div>
-
-                        <div class="mySlides fade bg-gray-100 rounded-lg overflow-hidden relative xl:block xl:w-1/2 xl:min-w-0 xl:max-w-none xl: xl:left-72">
-                            <img src="https://cdn.chotot.com/SXGchfhpHRWBzlHjqvlc813J6q1iMdBNTxtJF5LTMuY/preset:view/plain/03fc86c02b55024dc794498539eb8b7e-2750723191994386580.jpg"
-                                style="width:100%">
-                        </div>
-
+                        {{/each}}
                         <a class="prev" onclick="plusSlides(-1)">❮</a>
                         <a class="next" onclick="plusSlides(1)">❯</a>
 
@@ -187,20 +177,20 @@
 
                     <div class="md:py-8 xl: xl:inset-y-5 xl:relative xl:float-right">
                         <div class="mb-2 md:mb-3">
-                            <h2 class="text-gray-800 text-2xl font-bold lg:text-3xl xl:text-xl">Họ và Tên người bán</h2>
+                            <h2 class="text-gray-800 text-2xl font-bold lg:text-3xl xl:text-xl">{{post.userId.name}}</h2>
                         </div>
-                        <div class="flex gap-2.5"><a href="#"
-                                class="inline-block flex-1 sm:flex-none bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">Hiển
-                                thị số điện thoại</a></div>
+                        <div class="flex gap-2.5">
+                            <div id="phone" onclick="ShowPhone('{{post.userId.phone}}')" class="cursor-pointer inline-block flex-1 sm:flex-none bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">
+                                Hiển thị số điện thoại</div>
+                        </div>
                     </div>
                     <div class="md:py-8">
                         <div class="mb-2 md:mb-3">
-                            <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold">Tiêu đề</h2>
+                            <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold">{{post.title}}</h2>
                         </div>
                         <div class="mb-4">
-                            <div class="flex items-end gap-2"><span
-                                    class="text-gray-800 text-xl font-bold md:text-2xl xl:text-red-700">15.000.000
-                                    đ</span><a href="#"
+                            <div class="flex items-end gap-2"><span class="text-gray-800 text-lg font-semibold">Giá: </span><span
+                                    class="text-gray-800 text-xl font-bold md:text-2xl xl:text-red-700">{{post.price}} đ</span><a href="#"
                                     class="inline-block bg-gray-200 hover:bg-gray-300 focus-visible:ring ring-indigo-300 text-gray-500 active:text-gray-700 text-sm font-semibold text-center rounded-lg outline-none transition duration-100 px-4 py-3 md:text-base xl:text-center"><span><svg
                                             class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"
                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -209,11 +199,16 @@
                                         </svg></span></a></div>
                         </div>
                         <div class="mt-10 md:mt-16 lg:mt-20 xl:m-0">
+                            <div class="text-gray-800 text-lg font-semibold mb-3">Tình trạng</div>
+                            <p class="text-gray-500"><span>{{{post.status}}}</span></p>
+                        </div>
+                        <div class="mt-10 md:mt-16 lg:mt-20 xl:m-0">
                             <div class="text-gray-800 text-lg font-semibold mb-3">Thông tin chi tiết</div>
-                            <p class="text-gray-500"><span>This is a section of some simple filler text, also known as
-                                    placeholder text. It shares some characteristics of a real written text but is
-                                    random or otherwise generated. It may be used to display a sample of fonts or
-                                    generate text for testing.</span></p>
+                            <p class="text-gray-500"><span>{{{post.description}}}</span></p>
+                        </div>
+                        <div class="mt-10 md:mt-16 lg:mt-20 xl:m-0">
+                            <div class="text-gray-800 text-lg font-semibold my-3">Địa chỉ</div>
+                            <p class="text-gray-500"><span>{{{post.address}}}</span></p>
                         </div>
                     </div>
                 </div>
@@ -222,6 +217,15 @@
     </div>
     <!-- AlpineJS Library -->
     <script defer src="https://unpkg.com/alpinejs@3.9.0/dist/cdn.min.js"></script>
+    <script>
+        function ShowPhone(phone){
+            console.log(phone);
+            const divElement = document.getElementById("phone");
+            divElement.innerText=phone;
+            divElement.classList.remove("hover:bg-indigo-600");
+            divElement.classList.remove("cursor-pointer");
+        }
+    </script>
 </body>
 
 </html>

@@ -1,24 +1,7 @@
 import Post from '../models/post.model.js';
 import categoryService from "./category.service.js";
 
-export const getListPostByCategory = async (idCategory) => {
-    const postData = await Post.find(
-        {category: idCategory}
-    )
-    for(let i = 0; i < postData.length; i++){
-        postData[i].Image[0].data = Buffer.from(postData[i].Image[0].data).toString('base64');
-    }
-    return postData;
-}
-
-export const getPostById = async (idPost) => {
-    const post = await Post.find(
-        { _id: idPost }
-    )
-    return post[0];
-}
-
-export const getListPost = async () => {
+const getListPost = async () => {
     const listPost = await Post.find().populate("userId", "name address");
     return listPost;
 }
@@ -35,15 +18,42 @@ export default {
 
     async addNewPost(userId,detail,image){
         const categoryId = await categoryService.getIdCategoryByBrandId(parseInt(detail.category));
+        console.log(detail.status);
         const post = await Post.create({
             title: detail.title,
             description: detail.description,
             price: detail.price,
             address: detail.address,
             category: categoryId,
-            status: detail.status,
+            status: detail.statusProduct,
             Image: image,
             userId: userId
         });
-    }
+    },
+    async getListPostByStatus(status){
+        const listPost = await Post.find({statusPost: status}).lean();
+        for(let i = 0; i < listPost.length; i++){
+            listPost[i].Image[0] = Buffer.from(listPost[i].Image[0].buffer).toString('base64');
+        }
+        return listPost;
+    },
+    async getPostById(action,idPost){
+        let post = null;
+        if (action == "detail")
+            post = await Post.findOne({ _id: idPost }).populate("userId").lean();
+        else 
+            post = await Post.findOne({ _id: idPost }).populate("category", "categoryId").lean();
+        for(let i = 0; i < post.Image.length; i++){
+            post.Image[i] = Buffer.from(post.Image[i].buffer).toString('base64');
+        }
+        return post;
+    },
+    async getListPostByCategory(idCategory){
+        const postData = await Post.find(
+            {category: idCategory}
+        ).populate('category', 'categoryId').lean();
+        const data = postData.map(post => {return {...post, Image: post.Image.map(data => data = Buffer.from(data.buffer).toString('base64'))}});
+        return data;
+    },
+    getListPost
 }

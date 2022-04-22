@@ -1,11 +1,11 @@
 import express from "express";
-import {getListPostByCategory, getPostById} from '../service/product.sevice.js'
+import productSevice from '../service/product.sevice.js'
 
 const router = express.Router();
 
 router.get('/byCat/:id', async (req, res) => {
     const CatID = req.params.id || 0;
-    const postData = await getListPostByCategory(CatID);
+    const postData = await productSevice.getListPostByCategory(CatID);
     res.render('search', {
         postData
     })
@@ -13,7 +13,10 @@ router.get('/byCat/:id', async (req, res) => {
 
 router.get('/detail/:id', async (req, res) => {
     const PostID = req.params.id || 0;
-    const post = await getPostById(PostID);
+    const post = await productSevice.getPostById('detail',PostID);
+    res.render('detail', {
+        post
+    });
 })
 
 export default router;
