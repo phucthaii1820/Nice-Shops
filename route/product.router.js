@@ -13,7 +13,7 @@ router.get('/byCat/:id', async (req, res) => {
 
 router.get('/detail/:id', async (req, res) => {
     const PostID = req.params.id || 0;
-    const post = await productSevice.getPostById('detail',PostID);
+    const post = await productSevice.getPostById(PostID);
     res.render('detail', {
         post
     });

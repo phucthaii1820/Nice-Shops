@@ -115,6 +115,7 @@ router.post('/upload', userAuth, upload.array('image'), async(req,res) => {
     const image = await Promise.all(req.files.map(async image => await compress(image.buffer)));
     console.log(image);
     await productSevice.addNewPost(req.session.user._id,req.body,image);
+    res.redirect('/manage/pending_review');
 })
 
 router.get('/register', (req,res) => {
@@ -205,11 +206,16 @@ router.get('/manage', (req,res) => {
 
 router.get('/updatePost/:id', async(req,res) => {
     const id = req.params.id;
-    const post = await productSevice.getPostById("manage",id);
+    const post = await productSevice.getPostById(id);
     res.render("updatePost",{post});
 })
-router.post('/update', async(req,res) => {
-
-})
+router.post('/update', upload.array('image'), async(req,res) => {
+    let image = [];
+    if (req.files != []){
+        image = await Promise.all(req.files.map(async image => await compress(image.buffer)));
+    }
+    await productSevice.updatePost(req.body,image);
+    res.redirect('/manage/pending_review');
+});
 
 export default router;

@@ -26,7 +26,7 @@ figure{
                 <div>Mô tả chi tiết*</div>
                 <textarea name="description" class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" id="description"rows="4" class="form-control" placeholder="Ghi thông tin chi tiết sản phẩm của bạn tại đây" required></textarea>
                 <div>Giá* (vnđ)</div>
-                <input name="price" class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" type="number" id="price" required>
+                <input name="price" class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" id="price" onkeyup="test()" required>
                 <div>Địa chỉ</div>
                 <input name="address" class="bg-gray-200 w-full focus:outline-none px-2 rounded-md mb-3" type="text" id="address">
                 <div>Danh mục*</div>
@@ -81,5 +81,13 @@ figure{
             imageContainer.appendChild(figure);
             reader.readAsDataURL(i);
         }
+    }
+    function addCommas(str){
+        return str.replace(/^0+/, '').replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function test(){
+        var val = document.getElementById('price').value;
+        document.getElementById('price').value = addCommas(val);
     }
 </script>
