@@ -100,6 +100,14 @@ router.get('/upload', userAuth, (req, res) => {
     res.render('upload');
 });
 
+router.get('/forgetpassword', (req, res) => {
+    res.render('forgetpassword');
+});
+
+router.get('/changepassword', (req, res) => {
+    res.render('changepassword');
+});
+
 const storage = multer.memoryStorage();
 
 const upload = multer({storage:storage});
