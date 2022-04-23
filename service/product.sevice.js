@@ -39,7 +39,7 @@ export default {
         });
     },
     async getListPostByStatus(status) {
-        const listPost = await Post.find({ statusPost: status }).lean();
+        const listPost = await Post.find({ statusPost: status }).populate("userId", "address").lean();
         for (let i = 0; i < listPost.length; i++) {
             listPost[i].Image[0] = Buffer.from(listPost[i].Image[0].buffer).toString('base64');
         }
@@ -57,7 +57,9 @@ export default {
     },
     async getListPostByCategory(idCategory) {
         const postData = await Post.find(
-            { category: idCategory }
+            { category: idCategory,
+              statusPost: 1,
+            }
         ).populate('category', 'categoryId').lean();
         const data = postData.map(post => { return { ...post, Image: post.Image.map(data => data = Buffer.from(data.buffer).toString('base64')) } });
         return data;
@@ -86,6 +88,9 @@ export default {
                 status: detail.statusProduct,
             })
         }
+    },
+    async updateStatus(id, status){
+        await Post.findByIdAndUpdate(id, {statusPost: status});
     },
     getListPost
 }

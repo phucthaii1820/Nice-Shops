@@ -38,7 +38,12 @@ const accountSchema = new mongoose.Schema({
         type:Number,
         enume: Object.values(role),
         default: role.User
-    }
+    },
+    postmark:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post',
+        require:true,
+    }]
 });
 
 export default mongoose.model('Account',accountSchema,'Account');

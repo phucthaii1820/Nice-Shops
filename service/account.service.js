@@ -64,5 +64,19 @@ export default {
             "cmnd": newInfo.cmnd,
             "dob": newInfo.dob
         }});
-    } 
+    },
+    async getBookmarkbyUserId(id){
+        const listMark = await Account.findById(id).select("postmark");
+        return listMark;
+    },
+    async addSavePost(id,idPost){
+        const post = await Account.findOne({_id:id, postmark: idPost});
+        if (!post){
+            await Account.findByIdAndUpdate(id,{$push:{postmark: idPost}});
+            return {action: "like"};
+        } else {
+            await Account.findByIdAndUpdate(id,{$pull:{postmark: idPost}});
+            return {result: "unlike"};
+        }
+    }
 }

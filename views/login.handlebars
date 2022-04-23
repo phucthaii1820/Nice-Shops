@@ -4,6 +4,7 @@
           <p class="text-red-600 text-xl mb-3">{{error}}</p>
         {{/if}}
         <form class="mb-3 text-sm" method="post" action="/login">
+            <input type="hidden" name="referer" value={{this.referer}}>
             <p class="mb-4 text-2xl text-yellow-500">Đăng nhập</p>
             <input name="phone" class="focus:outline-none border-t border-b border-l border-r p-2 w-full rounded-lg mb-4" type="tel"
                 placeholder="Nhập SĐT của bạn" autocomplete="off" pattern="^\d{10}$" required="required">

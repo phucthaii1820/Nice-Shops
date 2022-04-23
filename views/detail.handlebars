@@ -120,6 +120,45 @@
         }
     }
 </style>
+<script>
+    const Toast = {
+  alert: (text) => Toastify({
+    text: text,
+    duration: 3000,
+    close: true,
+    gravity: "top",
+    position: "right",
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    style: {
+      background: "red"
+    }
+  }).showToast(),
+  success: (text) => Toastify({
+    text: text,
+    duration: 3000,
+    close: true,
+    gravity: "top",
+    position: "right",
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    style: {
+      background: "#42ba96"
+    }
+  }).showToast(),
+  warning: (text) => Toastify({
+    text: text,
+    duration: 3000,
+    close: true,
+    gravity: "top",
+    position: "right",
+    stopOnFocus: true, // Prevents dismissing of toast on hover
+    style: {
+      background: "#FFCC00"
+    }
+  }).showToast(),
+}
+</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 <body class="font-body antialiased text-[#64748b] bg-[#FFFFFF] dark:text-[#94a3b8] dark:bg-[#0f172a]">
     <div class="bg-white py-6 sm:py-8 lg:py-12">
@@ -129,9 +168,9 @@
 
                     <div class="slideshow-container">
                         {{#each post.Image}}
-                        <div class="mySlides fade bg-gray-100 rounded-lg overflow-hidden relative xl:block xl:w-1/2 xl:min-w-0 xl:max-w-none xl: xl:left-72">
-                            <img src="data:image/jpeg;base64,{{this}}"
-                                style="height: 600px; object-fit:fill">
+                        <div
+                            class="mySlides fade bg-gray-100 rounded-lg overflow-hidden relative xl:block xl:w-1/2 xl:min-w-0 xl:max-w-none xl: xl:left-72">
+                            <img src="data:image/jpeg;base64,{{this}}" style="height: 600px; object-fit:fill">
                         </div>
                         {{/each}}
                         <a class="prev" onclick="plusSlides(-1)">❮</a>
@@ -177,10 +216,12 @@
 
                     <div class="md:py-8 xl: xl:inset-y-5 xl:relative xl:float-right">
                         <div class="mb-2 md:mb-3">
-                            <h2 class="text-gray-800 text-2xl font-bold lg:text-3xl xl:text-xl">{{post.userId.name}}</h2>
+                            <h2 class="text-gray-800 text-2xl font-bold lg:text-3xl xl:text-xl">{{post.userId.name}}
+                            </h2>
                         </div>
                         <div class="flex gap-2.5">
-                            <div id="phone" onclick="ShowPhone('{{post.userId.phone}}')" class="cursor-pointer inline-block flex-1 sm:flex-none bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">
+                            <div id="phone" onclick="ShowPhone('{{post.userId.phone}}')"
+                                class="cursor-pointer inline-block flex-1 sm:flex-none bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">
                                 Hiển thị số điện thoại</div>
                         </div>
                     </div>
@@ -189,14 +230,19 @@
                             <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold">{{post.title}}</h2>
                         </div>
                         <div class="mb-4">
-                            <div class="flex items-end gap-2"><span class="text-gray-800 text-lg font-semibold">Giá: </span><span
-                                    class="text-gray-800 text-xl font-bold md:text-2xl xl:text-red-700">{{Format_price post.price}} đ</span><a href="#"
-                                    class="inline-block bg-gray-200 hover:bg-gray-300 focus-visible:ring ring-indigo-300 text-gray-500 active:text-gray-700 text-sm font-semibold text-center rounded-lg outline-none transition duration-100 px-4 py-3 md:text-base xl:text-center"><span><svg
-                                            class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                        </svg></span></a></div>
+                            <div class="flex items-end gap-2">
+                                <span class="text-gray-800 text-lg font-semibold">Giá: </span>
+                                <span class="text-gray-800 text-xl font-bold md:text-2xl xl:text-red-700">{{post.price}} VNĐ</span>
+                                <div onclick="savePost('{{{post._id}}}')" class="inline-block bg-gray-200 hover:bg-gray-300 focus-visible:ring ring-indigo-300 text-gray-500 active:text-gray-700 text-sm font-semibold text-center rounded-lg outline-none transition duration-100 px-4 py-3 md:text-base xl:text-center">
+                                    <span id="iconHeart">
+                                        {{#if this.like}}
+                                            <i class="fa fa-heart" style="font-size:25px;color:red"></i>
+                                        {{else}}
+                                            <i class="fa fa-heart-o" style="font-size:25px"></i>
+                                        {{/if}}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                         <div class="mt-10 md:mt-16 lg:mt-20 xl:m-0">
                             <div class="text-gray-800 text-lg font-semibold mb-3">Tình trạng</div>
@@ -217,13 +263,36 @@
     </div>
     <!-- AlpineJS Library -->
     <script defer src="https://unpkg.com/alpinejs@3.9.0/dist/cdn.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        function ShowPhone(phone){
+        function ShowPhone(phone) {
             console.log(phone);
             const divElement = document.getElementById("phone");
-            divElement.innerText=phone;
+            divElement.innerText = phone;
             divElement.classList.remove("hover:bg-indigo-600");
             divElement.classList.remove("cursor-pointer");
+        }
+        function savePost(id){
+            const icon = document.getElementById("iconHeart");
+            $.ajax({
+            url: "/save",
+            contentType: "application/json",
+            method:"GET",
+            data: {
+                "idPost": id
+            },
+            success: function(response){
+                if (response.result == 'redirect') {
+                    window.location.replace(response.url);
+                }
+                else{
+                    if (response.result == 'like')
+                        icon.innerHTML = '<i class="fa fa-heart" style="font-size:25px;color:red"></i>';
+                    else
+                        icon.innerHTML = '<i class="fa fa-heart-o" style="font-size:25px"></i>';
+                }
+            }
+            })
         }
     </script>
 </body>

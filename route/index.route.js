@@ -1,6 +1,7 @@
 import express from "express";
 import accountService from "../service/account.service.js";
 import {userAuth} from '../middlewares/userAuthenticate.mdw.js';
+import {userAuthAJAX} from '../middlewares/userAuthAJAX.mdw.js';
 import multer from 'multer';
 import productSevice from "../service/product.sevice.js";
 import fs from "fs";
@@ -9,6 +10,8 @@ import '../auth/authG.js'
 import passport from "passport";
 import { resolveSoa } from "dns";
 import sharp from "sharp";
+import statusPost from "../config/statusPost.js";
+import { get } from "http";
 
 const router = express.Router();
 
@@ -17,14 +20,18 @@ router.get('/', (req, res) => {
 });
 
 router.get('/login', (req,res) => {
-    res.render('login');
+    res.render('login', {referer:req.headers.referer});
 });
 
 router.post('/login', async(req,res) => {
     const user = await accountService.authenticate(req.body.phone,req.body.password);
     if (user){
         req.session.user = user;
-        res.redirect('/');
+        if (req.body.referer && (req.body.referer !== undefined && req.body.referer.slice(-6) !== "/login")) {
+            res.redirect(req.body.referer);
+        } else {
+            res.redirect("/");
+        }
     }
     else{
         res.render('login', {error: "Phone or password incorret"});
@@ -183,7 +190,7 @@ router.post('/update-phone', async (req, res) => {
     }
 })
 
-router.get('/manage/:status', async(req,res) => {
+router.get('/manage/:status', userAuth, async(req,res) => {
     const status = req.params.status;
     let listPost = null;
     if (status === "pending_review"){
@@ -196,20 +203,17 @@ router.get('/manage/:status', async(req,res) => {
         listPost = await productSevice.getListPostByStatus(3);
     }
     res.render('manage', {
-        listPost
+        listPost,
+        status
     })
 })
 
-router.get('/manage', (req,res) => {
-    res.render('manage');
-})
-
-router.get('/updatePost/:id', async(req,res) => {
+router.get('/updatePost/:id', userAuth, async(req,res) => {
     const id = req.params.id;
     const post = await productSevice.getPostById(id);
     res.render("updatePost",{post});
 })
-router.post('/update', upload.array('image'), async(req,res) => {
+router.post('/update', upload.array('image'), userAuth, async(req,res) => {
     let image = [];
     if (req.files != []){
         image = await Promise.all(req.files.map(async image => await compress(image.buffer)));
@@ -218,4 +222,32 @@ router.post('/update', upload.array('image'), async(req,res) => {
     res.redirect('/manage/pending_review');
 });
 
+router.get('/hiddenPost/:id',userAuth ,async(req,res) => {
+    await productSevice.updateStatus(req.params.id,statusPost.hidden);
+    res.redirect('/manage/published');
+});
+
+router.get("/publishPost/:id",userAuth,async(req,res) => {
+    await productSevice.updateStatus(req.params.id,statusPost.publised);
+    res.redirect('/manage/hidden');
+});
+
+router.post("/search",async(req,res) => {
+    let searchQ = req.body.searchContent.toLowerCase();
+    const data = await productSevice.getListPostByStatus(statusPost.publised);
+    let postData = [];
+    data.forEach(item => {
+        const title = item.title.toLowerCase();
+        if (title.includes(searchQ)){
+            postData.push(item);
+        }
+    });
+    res.render('search',{
+        postData
+    });
+});
+router.get("/save",userAuthAJAX,async(req,res) => {
+    const result = await accountService.addSavePost(req.session.user._id,req.query.idPost);
+    return res.status(200).send({result: result.action});
+});
 export default router;

@@ -14,8 +14,14 @@ router.get('/byCat/:id', async (req, res) => {
 router.get('/detail/:id', async (req, res) => {
     const PostID = req.params.id || 0;
     const post = await productSevice.getPostById(PostID);
+    const user = req.session.user;
+    let like = false;
+    if (user){
+        like = user.postmark.includes(PostID);
+    }
     res.render('detail', {
-        post
+        post,
+        like
     });
 })
 

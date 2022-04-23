@@ -32,9 +32,27 @@
                 tin mới</a></div>
     </div>
     {{#if this.listPost}}
-        {{#each this.listPost}}
-            {{> managePost-item}}
-        {{/each}}
+        {{#ifEqual this.status "pending_review"}}
+            {{#each this.listPost}}
+                {{> pending_reivew-post-item}}
+            {{/each}}
+        {{else}}
+            {{#ifEqual this.status "published"}}
+                {{#each this.listPost}}
+                    {{> published-post-item}}
+                {{/each}}
+            {{else}}
+                {{#ifEqual this.status "hidden"}}
+                    {{#each this.listPost}}
+                        {{> hidden-post-item}}
+                    {{/each}}
+                {{else}}
+                    {{#each this.listPost}}
+                        {{> pending_reivew-post-item}}
+                    {{/each}}
+                {{/ifEqual}}
+            {{/ifEqual}}
+        {{/ifEqual}}
     {{else}}
         <div class="max-w-screen-lg mx-auto justify-between items-center xl:my-10 p-5 bg-yellow-300">
             <div class="max-w-max mx-auto">Bạn chưa có tin nào trong mục này</div>

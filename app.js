@@ -52,6 +52,9 @@ const hbs = exphs.create({
     Format_price(val) {
         return numeral(val).format('0,0');
     },
+    ifEqual: function(arg1, arg2, options) {
+      return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+    },
     section: handlebars_sections()
   }
 });
