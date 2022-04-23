@@ -84,6 +84,10 @@ router.get('/profile', userAuth, (req, res) => {
     res.render('profile');
 });
 
+router.get('/user-profile', userAuth, (req, res) => {
+    res.render('user-profile');
+});
+
 router.get('/post-saved', userAuth, (req, res) => {
     res.render('post-saved');
 });
