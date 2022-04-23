@@ -45,6 +45,13 @@ export default {
         }
         return listPost;
     },
+    async getListPostOfUserByStatus(id, status){
+        const listPost = await Post.find({userId: id, statusPost: status }).lean();
+        for (let i = 0; i < listPost.length; i++) {
+            listPost[i].Image[0] = Buffer.from(listPost[i].Image[0].buffer).toString('base64');
+        }
+        return listPost;
+    },
     async getPostById(idPost) {
         const post = await Post.findOne({ _id: idPost })
             .populate("userId")
