@@ -1,4 +1,4 @@
-import dotenv  from "dotenv"
+import dotenv from "dotenv"
 import express from 'express';
 import numeral from 'numeral';
 import Handlebars from 'handlebars';
@@ -29,7 +29,7 @@ app.use(session({
 }));
 
 // connect MongoDB
-mongoose.connect(process.env.DB_HOST, {useNewUrlParser: true});
+mongoose.connect(process.env.DB_HOST, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on('error', () => console.error('Database connection failed'));
 db.once('open', async () => {
@@ -45,13 +45,18 @@ const hbs = exphs.create({
     },
 
     format_no_h(val) {
-      if(val != null)
+      if (val != null)
         return moment(val).format('DD-MM-YYYY');
     },
 
     Format_price(val) {
-        return numeral(val).format('0,0');
+      return numeral(val).format('0,0');
     },
+
+    inc(value, options) {
+      return parseInt(value) + 1;
+    },
+
     ifEqual: function(arg1, arg2, options) {
       return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
     },
@@ -67,4 +72,4 @@ app.use(express.static(path.join(__dirname, 'public')))
 activate_route_middleware(app);
 
 const port = process.env.PORT || 3000;
-app.listen(port, function () {});
+app.listen(port, function () { });

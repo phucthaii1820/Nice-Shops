@@ -6,16 +6,15 @@
                 Quản lý tin</h2>
             <div class="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
                 <div class="mt-2 flex items-center text-sm"><a href="/manage/published"
-                        class="flex items-center text-secondary px-2 xl:text-gray-500 xl:text-2xl">Hiển thị</a></div>
+                        class="flex items-center text-secondary px-2 xl:text-gray-500 xl:text-2xl {{#ifEqual status "published"}}font-bold{{/ifEqual}}">Hiển thị</a></div>
                 <div class="mt-2 flex items-center text-sm"><a href="/manage/refused"
-                        class="flex items-center text-secondary px-2 xl:text-gray-500 xl:text-2xl">Từ chối</a></div>
+                        class="flex items-center text-secondary px-2 xl:text-gray-500 xl:text-2xl {{#ifEqual status "refused"}}font-bold{{/ifEqual}}">Từ chối</a></div>
                 <div class="mt-2 flex items-center text-sm"><a href="/manage/hidden"
-                        class="flex items-center text-secondary px-2 xl:text-gray-500 xl:text-2xl">Ẩn</a></div>
+                        class="flex items-center text-secondary px-2 xl:text-gray-500 xl:text-2xl {{#ifEqual status "hidden"}}font-bold{{/ifEqual}}">Ẩn</a></div>
                 <div class="mt-2 flex items-center text-sm"><a href="/manage/pending_review"
-                        class="flex items-center text-secondary px-2 xl:text-gray-500 xl:text-2xl">Tin chờ được
-                        duyệt</a></div>
+                        class="flex items-center text-secondary px-2 xl:text-gray-500 xl:text-2xl {{#ifEqual status "pending_review"}}font-bold{{/ifEqual}}">Tin chờ được duyệt</a></div>
                 <div class="mt-2 flex items-center text-sm"><a href="/manage/saved"
-                        class="flex items-center text-secondary px-2 xl:text-gray-500 xl:text-2xl">Tin đã lưu<span
+                        class="flex items-center text-secondary px-2 xl:text-gray-500 xl:text-2xl {{#ifEqual status "saved"}}font-bold{{/ifEqual}}">Tin đã lưu<span
                             class="order-first">
                             <div style="font-size:inherit;color:inherit;padding:2px"><svg stroke="currentColor"
                                     fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em"

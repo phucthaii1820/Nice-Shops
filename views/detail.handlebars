@@ -169,8 +169,8 @@
                     <div class="slideshow-container">
                         {{#each post.Image}}
                         <div
-                            class="mySlides fade bg-gray-100 rounded-lg overflow-hidden relative xl:block xl:w-1/2 xl:min-w-0 xl:max-w-none xl: xl:left-72">
-                            <img src="data:image/jpeg;base64,{{this}}" style="height: 600px; object-fit:fill">
+                            class="mySlides fade rounded-lg overflow-hidden relative xl:block xl:w-1/2 xl:min-w-0 xl:max-w-none xl: xl:left-72">
+                            <img src="data:image/jpeg;base64,{{this}}" style="height: 600px; object-fit:contain">
                         </div>
                         {{/each}}
                         <a class="prev" onclick="plusSlides(-1)">❮</a>
@@ -180,39 +180,10 @@
                     <br>
 
                     <div style="text-align:center">
-                        <span class="dot" onclick="currentSlide(1)"></span>
-                        <span class="dot" onclick="currentSlide(2)"></span>
-                        <span class="dot" onclick="currentSlide(3)"></span>
+                        {{#each post.Image}}
+                            <span class="dot" onclick="currentSlide({{inc @index}})"></span>
+                        {{/each}}
                     </div>
-
-                    <script>
-                        let slideIndex = 1;
-                        showSlides(slideIndex);
-
-                        function plusSlides(n) {
-                            showSlides(slideIndex += n);
-                        }
-
-                        function currentSlide(n) {
-                            showSlides(slideIndex = n);
-                        }
-
-                        function showSlides(n) {
-                            let i;
-                            let slides = document.getElementsByClassName("mySlides");
-                            let dots = document.getElementsByClassName("dot");
-                            if (n > slides.length) { slideIndex = 1 }
-                            if (n < 1) { slideIndex = slides.length }
-                            for (i = 0; i < slides.length; i++) {
-                                slides[i].style.display = "none";
-                            }
-                            for (i = 0; i < dots.length; i++) {
-                                dots[i].className = dots[i].className.replace(" active", "");
-                            }
-                            slides[slideIndex - 1].style.display = "block";
-                            dots[slideIndex - 1].className += " active";
-                        }
-                    </script>
 
                     <div class="md:py-8 xl: xl:inset-y-5 xl:relative xl:float-right">
                         <div class="mb-2 md:mb-3">
@@ -246,7 +217,7 @@
                         </div>
                         <div class="mt-10 md:mt-16 lg:mt-20 xl:m-0">
                             <div class="text-gray-800 text-lg font-semibold mb-3">Tình trạng</div>
-                            <p class="text-gray-500"><span>{{{post.status}}}</span></p>
+                            <p class="text-gray-500"><span>{{#ifEqual post.status "0"}}Mới{{/ifEqual}}{{#ifEqual post.status "1"}}Đã sử dụng{{/ifEqual}}</span></p>
                         </div>
                         <div class="mt-10 md:mt-16 lg:mt-20 xl:m-0">
                             <div class="text-gray-800 text-lg font-semibold mb-3">Thông tin chi tiết</div>
@@ -265,6 +236,33 @@
     <script defer src="https://unpkg.com/alpinejs@3.9.0/dist/cdn.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            if (n > slides.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = slides.length }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+        }
+
         function ShowPhone(phone) {
             console.log(phone);
             const divElement = document.getElementById("phone");
