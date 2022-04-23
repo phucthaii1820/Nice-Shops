@@ -4,21 +4,10 @@
             <div class="bg-white p-3 border-t-4 border-green-400">
                 <div class="image overflow-hidden">
                     <img class="h-auto w-full mx-auto"
-                         src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg"
+                         src="https://herrmans.eu/wp-content/uploads/2019/01/765-default-avatar.png"
                          alt="">
                 </div>
                 <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{this.user.Username}}</h1>
-                <ul class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
-                    <li class="flex items-center py-3">
-                        <span>Point</span>
-                        <span class="ml-auto"><span
-                                class="bg-green-500 py-1 px-2 rounded text-white text-sm">{{this.user.Rate}}%</span></span>
-                    </li>
-                    <li class="flex items-center py-3">
-                        <span>Member since</span>
-                        <span class="ml-auto">{{ this.user.RegisterDate}}</span>
-                    </li>
-                </ul>
             </div>
             <div class="my-4"></div>
         </div>
@@ -58,31 +47,33 @@
                 <a href="/editProfile" class="py-2 px-3 mt-7 text-white bg-yellow-400 font-bold">Edit your profile</a>
             </div>
 
-            {{#if this.hasReview}}
-                {{#each this.rateList}}
-                    <div class="p-3 shadow-sm rounded-sm bg-gray-200">
-                        <div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-2">
-                            <i class="fa fa-comment fa-lg" aria-hidden="true"></i>
-                            <span class="tracking-wide">Comment</span>
-                        </div>
-                        <div class="text-gray-700 mb-4">
-                            <div class="font-semibold flex items-center mb-1">
-                                <div class="h-8 w-8 bg-cyan-700">
-                                    <img class="h-auto w-full mx-auto rounded-full"
-                                         src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg"
-                                         alt="">
-                                </div>
-                                <a href="/profile/{{Seller}}"
-                                   class="ml-2 hover:text-key">{{Name}}</a>
-                                <div class="ml-2 font-light">{{ Time}}</div>
-                            </div>
-                            <div class="bg-white rounded w-full py-4 px-3">{{{Comment}}}</div>
-                        </div>
-                    </div>
-                {{/each}}
-            {{else}}
-                <div>No review yet!</div>
-            {{/if}}
+    <div class="bg-white py-6 sm:py-8 lg:py-12">
+      <div class="max-w-screen-md px-4 md:px-8 mx-auto">
+        <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-4 md:mb-8 xl:mb-12">Đánh giá người dùng</h2>
+        <div class="flex justify-between items-center border-t border-b py-4 mb-4">
+        <div class="flex flex-col gap-0.5"><span class="block font-bold">Tổng cộng</span>
+            <div class="flex gap-0.5 -ml-1">
+                <span><svg class="w-6 h-6 text-yellow-400"  xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-400" viewBox="0 0 20 20" fill="currentColor"> <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /> </svg></span>
+                <span><svg class="w-6 h-6 text-yellow-400"  xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-400" viewBox="0 0 20 20" fill="currentColor"> <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /> </svg></span>
+                <span><svg class="w-6 h-6 text-yellow-400"  xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-400" viewBox="0 0 20 20" fill="currentColor"> <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /> </svg></span>
+                <span><svg class="w-6 h-6 text-yellow-400"  xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-yellow-400" viewBox="0 0 20 20" fill="currentColor"> <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /> </svg></span>
+                <span><svg class="w-6 h-6 text-gray-300"  xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-300" viewBox="0 0 20 20" fill="currentColor"> <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /> </svg></span>
+                </div><span class="block text-gray-500 text-sm">Dựa trên n lượt đánh giá</span>
+        </div>
+      </div>
+        <div class="divide-y">
+          <div class="flex flex-col gap-3 py-4 md:py-8">
+            <div class=""><span class="block text-sm font-bold">Đỗ Tiến Trung</span><span class="block text-gray-500 text-sm">24/04/2022</span></div>
+            <div class="flex gap-0.5 -ml-1">
+                <span><svg class="w-5 h-5 text-yellow-400"  xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor"> <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /> </svg></span>
+                <span><svg class="w-5 h-5 text-yellow-400"  xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor"> <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /> </svg></span>
+                <span><svg class="w-5 h-5 text-yellow-400"  xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor"> <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /> </svg></span>
+                <span><svg class="w-5 h-5 text-yellow-400"  xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor"> <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /> </svg></span>
+                <span><svg class="w-5 h-5 text-gray-300"  xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-300" viewBox="0 0 20 20" fill="currentColor"> <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /> </svg></span></div>
+            <p class="text-gray-600">Người bán thân thiện, hàng uy tín chất lượng!</p>
+          </div>
+        </div>
+    </div>
         </div>
     </div>
 </div>

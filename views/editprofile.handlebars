@@ -7,15 +7,15 @@
         <div class="w-full">
             <form class="pl-10" method="post" action="/editProfile" autocomplete="off">
                 <div>Họ và tên</div>
-                <input class="bg-gray-200 w-full focus:outline-none px-2 py-1 rounded-md mb-3" type="text" id="name" name="name" value={{user.name}}>
+                <input class="bg-gray-200 w-full focus:outline-none px-2 py-1 rounded-md mb-3" type="text" id="name" name="name" value="{{user.name}}">
                 <div>Số điện thoại</div>
-                <input class="bg-gray-200 w-full focus:outline-none px-2 py-1 rounded-md mb-3" type="text" id="phone" value={{user.phone}} disabled="true">
+                <input class="bg-gray-200 w-full focus:outline-none px-2 py-1 rounded-md mb-3" type="text" id="phone" value="{{user.phone}}" disabled="true">
                 <div>Email</div>
-                <input class="bg-gray-200 w-full focus:outline-none px-2 py-1 rounded-md mb-3" type="email" id="email" name="email" value={{user.email}}>
+                <input class="bg-gray-200 w-full focus:outline-none px-2 py-1 rounded-md mb-3" type="email" id="email" name="email" value="{{user.email}}">
                 <div>Địa chỉ</div>
-                <input class="bg-gray-200 w-full focus:outline-none px-2 py-1 rounded-md mb-3" type="text" id="address" name="address" value={{user.address}}>
+                <input class="bg-gray-200 w-full focus:outline-none px-2 py-1 rounded-md mb-3" type="text" id="address" name="address" value="{{user.address}}">
                 <div>Số CMND/Thẻ căn cước</div>
-                <input class="bg-gray-200 w-full focus:outline-none px-2 py-1 rounded-md mb-3" type="text" id="CMND" name="cmnd" value={{user.cmnd}}>
+                <input class="bg-gray-200 w-full focus:outline-none px-2 py-1 rounded-md mb-3" type="text" id="CMND" name="cmnd" value="{{user.cmnd}}">
                 <div>Giới tính</div>
                 <select class="bg-gray-200 w-full focus:outline-none px-2 py-1 rounded-md mb-3" id="gender" name="gender">
                     {{#if isUndefine}}
