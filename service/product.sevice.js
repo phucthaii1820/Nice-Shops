@@ -26,7 +26,8 @@ export default {
 
     async addNewPost(userId, detail, image) {
         const categoryId = await categoryService.getIdCategoryByBrandId(parseInt(detail.category));
-        console.log(detail.status);
+        console.log(detail);
+        detail.price = Number(detail.price.split(',').join(''));
         const post = await Post.create({
             title: detail.title,
             description: detail.description,
@@ -73,7 +74,7 @@ export default {
     },
     async updatePost(detail, image) {
         const categoryId = await categoryService.getIdCategoryByBrandId(parseInt(detail.category));
-        detail.price = Number(detail.price.split('.').join(''));
+        detail.price = Number(detail.price.split(',').join(''));
         if (image.length != 0) {
             await Post.findByIdAndUpdate(detail.id, {
                 title: detail.title,
