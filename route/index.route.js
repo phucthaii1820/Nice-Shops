@@ -11,7 +11,6 @@ import passport from "passport";
 import { resolveSoa } from "dns";
 import sharp from "sharp";
 import statusPost from "../config/statusPost.js";
-import { get } from "http";
 
 const router = express.Router();
 
@@ -194,13 +193,13 @@ router.get('/manage/:status', userAuth, async(req,res) => {
     const status = req.params.status;
     let listPost = null;
     if (status === "pending_review"){
-        listPost = await productSevice.getListPostOfUserByStatus(0);
+        listPost = await productSevice.getListPostOfUserByStatus(req.session.user._id,0);
     } else if(status === "published"){
-        listPost = await productSevice.getListPostOfUserByStatus(1);
+        listPost = await productSevice.getListPostOfUserByStatus(req.session.user._id,1);
     } else if (status === "refused"){
-        listPost = await productSevice.getListPostOfUserByStatus(2);
+        listPost = await productSevice.getListPostOfUserByStatus(req.session.user._id,2);
     } else if (status === "hidden"){
-        listPost = await productSevice.getListPostOfUserByStatus(3);
+        listPost = await productSevice.getListPostOfUserByStatus(req.session.user._id,3);
     } else {
         listPost = await accountService.getBookmarkbyUserId(req.session.user._id);
     }
