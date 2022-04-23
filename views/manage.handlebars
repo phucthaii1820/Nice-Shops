@@ -47,9 +47,15 @@
                         {{> hidden-post-item}}
                     {{/each}}
                 {{else}}
-                    {{#each this.listPost}}
-                        {{> pending_reivew-post-item}}
-                    {{/each}}
+                    {{#ifEqual this.status "refused"}}
+                        {{#each this.listPost}}
+                            {{> pending_reivew-post-item}}
+                        {{/each}}
+                    {{else}}
+                        {{#each this.listPost}}
+                            {{> saved-post-item}}
+                        {{/each}}
+                    {{/ifEqual}}
                 {{/ifEqual}}
             {{/ifEqual}}
         {{/ifEqual}}

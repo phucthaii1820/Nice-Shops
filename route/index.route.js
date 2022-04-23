@@ -201,6 +201,8 @@ router.get('/manage/:status', userAuth, async(req,res) => {
         listPost = await productSevice.getListPostByStatus(2);
     } else if (status === "hidden"){
         listPost = await productSevice.getListPostByStatus(3);
+    } else {
+        listPost = await accountService.getBookmarkbyUserId(req.session.user._id);
     }
     res.render('manage', {
         listPost,

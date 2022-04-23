@@ -66,8 +66,10 @@ export default {
         }});
     },
     async getBookmarkbyUserId(id){
-        const listMark = await Account.findById(id).select("postmark");
-        return listMark;
+        const listMark = await Account.findOne({_id:id},'postmark').populate('postmark').lean();
+        const postData = listMark.postmark;
+        const data = postData.map(post => { return { ...post, Image: post.Image.map(data => data = Buffer.from(data.buffer).toString('base64')) } });
+        return data;
     },
     async addSavePost(id,idPost){
         const post = await Account.findOne({_id:id, postmark: idPost});
