@@ -2,8 +2,8 @@
     <a class="pb-7" href="/product/detail/{{_id}}">
         <img class="w-80 h-80 object-cover" src="data:image/jpeg;base64,{{Image.[0]}}">
         <div class="pt-3 flex items-center justify-between">
-            <p class="font-semibold">{{title}}</p>
+            <p class="font-semibold truncate">{{title}}</p>
         </div>
-        <p class="pt-1 text-gray-900">Giá: <span class="text-red-500">{{Format_price price}} VNĐ</span></p>
+        <p class="pt-1 text-gray-900">Giá: <span class="text-red-500 price" id="{{_id}}">{{price}}</span> <span class="text-red-500">VNĐ</span></p>
     </a>
 </div>

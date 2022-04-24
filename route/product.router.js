@@ -1,5 +1,7 @@
 import express from "express";
-import productSevice from '../service/product.sevice.js'
+import accountService from "../service/account.service.js";
+import productSevice from '../service/product.sevice.js';
+import { mongoose } from 'mongoose';
 
 const router = express.Router();
 
@@ -14,10 +16,9 @@ router.get('/byCat/:id', async (req, res) => {
 router.get('/detail/:id', async (req, res) => {
     const PostID = req.params.id || 0;
     const post = await productSevice.getPostById(PostID);
-    const user = req.session.user;
     let like = false;
-    if (user){
-        like = user.postmark.includes(PostID);
+    if (req.session.user){
+        like = await accountService.checkPostMark(req.session.user._id,PostID);
     }
     res.render('detail', {
         post,

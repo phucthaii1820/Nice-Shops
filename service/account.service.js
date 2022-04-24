@@ -80,5 +80,9 @@ export default {
             await Account.findByIdAndUpdate(id,{$pull:{postmark: idPost}});
             return {result: "unlike"};
         }
+    },
+    async checkPostMark(id, PostID){
+        const result = Account.exists({_id: id, postmark: PostID}).lean();
+        return result;
     }
 }

@@ -17,7 +17,21 @@
     </nav>
 
     {{#each this.postData}}
-        {{> product}}
+    {{> product}}
     {{/each}}
 
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.price').each(function () {
+            let id = "#" + $(this).attr('id');
+            let value = addCommas($(id).text());
+            $(id).text(value);
+        });
+    });
+    function addCommas(str) {
+        return str.replace(/^0+/, '').replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+</script>

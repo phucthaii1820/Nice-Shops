@@ -11,6 +11,7 @@ import passport from "passport";
 import { resolveSoa } from "dns";
 import sharp from "sharp";
 import statusPost from "../config/statusPost.js";
+import { mongoose } from 'mongoose';
 
 const router = express.Router();
 
