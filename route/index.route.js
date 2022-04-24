@@ -255,8 +255,10 @@ router.post("/search",async(req,res) => {
             postData.push(item);
         }
     });
+    const isSearch = true
     res.render('search',{
-        postData
+        postData,
+        isSearch
     });
 });
 router.get("/save",userAuthAJAX,async(req,res) => {

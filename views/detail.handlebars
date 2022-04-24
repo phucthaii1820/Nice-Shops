@@ -203,7 +203,7 @@
                         <div class="mb-4">
                             <div class="flex items-end gap-2">
                                 <span class="text-gray-800 text-lg font-semibold">Giá: </span>
-                                <span class="text-gray-800 text-xl font-bold md:text-2xl xl:text-red-700">{{post.price}} VNĐ</span>
+                                <span class="text-gray-800 text-xl font-bold md:text-2xl xl:text-red-700">{{Format_price post.price}} VNĐ</span>
                                 <div onclick="savePost('{{{post._id}}}')" class="inline-block bg-gray-200 hover:bg-gray-300 focus-visible:ring ring-indigo-300 text-gray-500 active:text-gray-700 text-sm font-semibold text-center rounded-lg outline-none transition duration-100 px-4 py-3 md:text-base xl:text-center">
                                     <span id="iconHeart">
                                         {{#if this.like}}
