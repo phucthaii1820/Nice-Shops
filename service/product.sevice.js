@@ -7,6 +7,18 @@ const getListPost = async () => {
 }
 
 export default {
+    async getListPostPaging(skip, limit, catID) {
+        const postData = await Post.find(
+            { category: catID,
+                statusPost: 1,
+            }
+        ).populate('category', 'categoryId').skip(skip).limit(limit).lean();
+        const data = postData.map(post => { return { ...post, Image: post.Image.map(data => data = Buffer.from(data.buffer).toString('base64')) } });
+        return data;
+    },
+    async getQuantityOfPost( catID ) {
+        return await Post.count({ category: catID, statusPost: 1 });
+    },
     async changStatusPostById(_id, statusPost) {
         await Post.updateOne({ _id }, { $set: { statusPost } })
     },

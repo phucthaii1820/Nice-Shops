@@ -7,9 +7,29 @@ const router = express.Router();
 
 router.get('/byCat/:id', async (req, res) => {
     const CatID = req.params.id || 0;
-    const postData = await productSevice.getListPostByCategory(CatID);
+    const page = req.query.page || 1;
+    const limit = 8;
+
+    const quantity = await productSevice.getQuantityOfPost(CatID);
+
+    let nPage = Math.floor(quantity / limit);
+    if (quantity.length % limit > 0) {
+        nPage++;
+    }
+
+    const page_numbers = [];
+    for (let i = 1; i <= nPage; i++) {
+        page_numbers.push({
+            value: i,
+            isCurrent: +page === i
+        });
+    }
+
+   const postData = await productSevice.getListPostPaging(limit * (page - 1), limit, CatID);
+
     res.render('search', {
-        postData
+        postData,
+        page_numbers
     })
 })
 
