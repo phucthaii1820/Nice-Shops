@@ -1,17 +1,19 @@
 import express from "express";
 import accountService from "../service/account.service.js";
-import {userAuth} from '../middlewares/userAuthenticate.mdw.js';
-import {userAuthAJAX} from '../middlewares/userAuthAJAX.mdw.js';
+import { userAuth } from '../middlewares/userAuthenticate.mdw.js';
+import { userAuthAJAX } from '../middlewares/userAuthAJAX.mdw.js';
 import multer from 'multer';
 import productSevice from "../service/product.sevice.js";
-import fs from "fs";
 
 import '../auth/authG.js'
 import passport from "passport";
-import { resolveSoa } from "dns";
 import sharp from "sharp";
 import statusPost from "../config/statusPost.js";
-import { mongoose } from 'mongoose';
+import config from "../config/SMS.js";
+import twilio from "twilio"
+import otp from '../utils/otp.js'
+
+const client = new twilio(config.accountSID, config.authToken)
 
 const router = express.Router();
 
@@ -19,13 +21,13 @@ router.get('/', (req, res) => {
     res.render('home');
 });
 
-router.get('/login', (req,res) => {
-    res.render('login', {referer:req.headers.referer});
+router.get('/login', (req, res) => {
+    res.render('login', { referer: req.headers.referer });
 });
 
-router.post('/login', async(req,res) => {
-    const user = await accountService.authenticate(req.body.phone,req.body.password);
-    if (user){
+router.post('/login', async (req, res) => {
+    const user = await accountService.authenticate(req.body.phone, req.body.password);
+    if (user) {
         req.session.user = user;
         if (req.body.referer && (req.body.referer !== undefined && req.body.referer.slice(-6) !== "/login")) {
             res.redirect(req.body.referer);
@@ -33,24 +35,24 @@ router.post('/login', async(req,res) => {
             res.redirect("/");
         }
     }
-    else{
-        res.render('login', {error: "Phone or password incorret"});
+    else {
+        res.render('login', { error: "Phone or password incorret" });
     }
 });
 
-router.get('/editProfile', userAuth, (req,res) => {
+router.get('/editProfile', userAuth, (req, res) => {
     const user = req.session.user;
     let isUndefine = false;
     let isMan = false;
     let isWoman = false;
     let isOther = false;
-    if (user.gender === 0){
+    if (user.gender === 0) {
         isUndefine = true;
     }
-    else if (user.gender === 1){
+    else if (user.gender === 1) {
         isMan = true;
     }
-    else if(user.gender === 2){
+    else if (user.gender === 2) {
         isWoman = true;
     }
     else {
@@ -64,12 +66,12 @@ router.get('/editProfile', userAuth, (req,res) => {
     });
 });
 
-router.post('/editProfile', userAuth, async(req,res) => {
+router.post('/editProfile', userAuth, async (req, res) => {
     const user = req.session.user;
     const updateUser = req.body;
     user.name = updateUser.name;
     user.email = updateUser.email;
-    if (updateUser.gender === undefined){
+    if (updateUser.gender === undefined) {
         user.gender = 0;
     }
     user.gender = parseInt(updateUser.gender, 10);
@@ -109,13 +111,32 @@ router.get('/forgetpassword', (req, res) => {
     res.render('forgetpassword');
 });
 
-router.get('/changepassword', (req, res) => {
-    res.render('changepassword');
+router.post('/forgetpassword', async (req, res) => {
+    const number = req.body.phone;
+    if (await accountService.checkExistAccount(number)) {
+        const result = await otp.createOTP(number);
+        const numberCode = "+84" + number.slice(1);
+        client.messages
+            .create({
+                body: "Mã xác minh thay đổi mật khẩu NiceShops: " + result + ". Vui lòng không được chia sẻ cho bất cứ ai.",
+                messagingServiceSid: config.serviceID,
+                to: numberCode
+            })
+            .then(message => console.log(message.sid))
+            .done();
+        res.render('verifyOTP', {
+            number
+        });
+    }else
+    {
+        const error = "Không tồn tại số điện thoại này";
+        res.render('forgetpassword',{error: error});
+    }
 });
 
 const storage = multer.memoryStorage();
 
-const upload = multer({storage:storage});
+const upload = multer({ storage: storage });
 
 const imageConfig = {
     quality: 70,
@@ -123,30 +144,30 @@ const imageConfig = {
     force: true
 }
 
-const compress = (image) => 
-        sharp(image)
-            .jpeg(imageConfig)
-            .toBuffer()
-            .then(data => data)
-            .catch(err => {throw err})
+const compress = (image) =>
+    sharp(image)
+        .jpeg(imageConfig)
+        .toBuffer()
+        .then(data => data)
+        .catch(err => { throw err })
 
-router.post('/upload', userAuth, upload.array('image'), async(req,res) => {
+router.post('/upload', userAuth, upload.array('image'), async (req, res) => {
     const image = await Promise.all(req.files.map(async image => await compress(image.buffer)));
     console.log(image);
-    await productSevice.addNewPost(req.session.user._id,req.body,image);
+    await productSevice.addNewPost(req.session.user._id, req.body, image);
     res.redirect('/manage/pending_review');
 })
 
-router.get('/register', (req,res) => {
+router.get('/register', (req, res) => {
     res.render('register');
 });
 
-router.post('/register', async(req,res) => {
-    if(await accountService.checkExistAccount(req.body.phone)){
+router.post('/register', async (req, res) => {
+    if (await accountService.checkExistAccount(req.body.phone)) {
         console.log('Username or email is already taken!');
         res.render('register', { error: 'Username or email is already taken!' });
-    }else{
-        const user = await accountService.createNewAccount(req.body.phone,req.body.password);
+    } else {
+        const user = await accountService.createNewAccount(req.body.phone, req.body.password);
         console.log(user);
         req.session.user = user;
         res.redirect('/');
@@ -154,18 +175,18 @@ router.post('/register', async(req,res) => {
 });
 
 router.get("/is-available", async (req, res) => {
-    if(await accountService.checkExistAccount(req.query.user)) {
+    if (await accountService.checkExistAccount(req.query.user)) {
         return res.json(false);
     }
     return res.json(true);
 })
 
-router.get('/logout',(req,res) => {
+router.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/');
 });
 
-router.get('/auth/google', passport.authenticate('google', { scope: [ 'email', 'profile' ] }
+router.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }
 ));
 
 router.get('/auth/google/callback',
@@ -173,9 +194,9 @@ router.get('/auth/google/callback',
     async function (req, res) {
         const email = req.user.emails[0].value
         const user = await accountService.getUserByEmail(email);
-        if(user === null) {
+        if (user === null) {
 
-            req.session.Gmail = {email: req.user.emails[0].value, name: req.user.displayName, isRegister: true}
+            req.session.Gmail = { email: req.user.emails[0].value, name: req.user.displayName, isRegister: true }
             console.log(req.session.Gmail)
             res.redirect('/update-phone');
         }
@@ -192,27 +213,27 @@ router.get('/update-phone', (req, res) => {
 })
 
 router.post('/update-phone', async (req, res) => {
-    if(await accountService.checkExistAccount(req.body.phone)){
+    if (await accountService.checkExistAccount(req.body.phone)) {
         res.render('register', { error: 'Your phone is already taken!' });
-    }else{
-        const user = await accountService.createNewAccountByG(req.body.phone,req.session.Gmail.email,req.session.Gmail.name);
+    } else {
+        const user = await accountService.createNewAccountByG(req.body.phone, req.session.Gmail.email, req.session.Gmail.name);
         console.log(user);
         req.session.user = user;
         res.redirect('/');
     }
 })
 
-router.get('/manage/:status', userAuth, async(req,res) => {
+router.get('/manage/:status', userAuth, async (req, res) => {
     const status = req.params.status;
     let listPost = null;
-    if (status === "pending_review"){
-        listPost = await productSevice.getListPostOfUserByStatus(req.session.user._id,0);
-    } else if(status === "published"){
-        listPost = await productSevice.getListPostOfUserByStatus(req.session.user._id,1);
-    } else if (status === "refused"){
-        listPost = await productSevice.getListPostOfUserByStatus(req.session.user._id,2);
-    } else if (status === "hidden"){
-        listPost = await productSevice.getListPostOfUserByStatus(req.session.user._id,3);
+    if (status === "pending_review") {
+        listPost = await productSevice.getListPostOfUserByStatus(req.session.user._id, 0);
+    } else if (status === "published") {
+        listPost = await productSevice.getListPostOfUserByStatus(req.session.user._id, 1);
+    } else if (status === "refused") {
+        listPost = await productSevice.getListPostOfUserByStatus(req.session.user._id, 2);
+    } else if (status === "hidden") {
+        listPost = await productSevice.getListPostOfUserByStatus(req.session.user._id, 3);
     } else {
         listPost = await accountService.getBookmarkbyUserId(req.session.user._id);
     }
@@ -222,48 +243,66 @@ router.get('/manage/:status', userAuth, async(req,res) => {
     })
 })
 
-router.get('/updatePost/:id', userAuth, async(req,res) => {
+router.get('/updatePost/:id', userAuth, async (req, res) => {
     const id = req.params.id;
     const post = await productSevice.getPostById(id);
-    res.render("updatePost",{post});
+    res.render("updatePost", { post });
 })
-router.post('/update', upload.array('image'), userAuth, async(req,res) => {
+router.post('/update', upload.array('image'), userAuth, async (req, res) => {
     let image = [];
-    if (req.files != []){
+    if (req.files != []) {
         image = await Promise.all(req.files.map(async image => await compress(image.buffer)));
     }
-    await productSevice.updatePost(req.body,image);
+    await productSevice.updatePost(req.body, image);
     res.redirect('/manage/pending_review');
 });
 
-router.get('/hiddenPost/:id',userAuth ,async(req,res) => {
-    await productSevice.updateStatus(req.params.id,statusPost.hidden);
+router.get('/hiddenPost/:id', userAuth, async (req, res) => {
+    await productSevice.updateStatus(req.params.id, statusPost.hidden);
     res.redirect('/manage/published');
 });
 
-router.get("/publishPost/:id",userAuth,async(req,res) => {
-    await productSevice.updateStatus(req.params.id,statusPost.publised);
+router.get("/publishPost/:id", userAuth, async (req, res) => {
+    await productSevice.updateStatus(req.params.id, statusPost.publised);
     res.redirect('/manage/hidden');
 });
 
-router.post("/search",async(req,res) => {
+router.post("/search", async (req, res) => {
     let searchQ = req.body.searchContent.toLowerCase();
     const data = await productSevice.getListPostByStatus(statusPost.publised);
     let postData = [];
     data.forEach(item => {
         const title = item.title.toLowerCase();
-        if (title.includes(searchQ)){
+        if (title.includes(searchQ)) {
             postData.push(item);
         }
     });
     const isSearch = true
-    res.render('search',{
+    res.render('search', {
         postData,
         isSearch
     });
 });
-router.get("/save",userAuthAJAX,async(req,res) => {
-    const result = await accountService.addSavePost(req.session.user._id,req.query.idPost);
-    return res.status(200).send({result: result.action});
+router.get("/save", userAuthAJAX, async (req, res) => {
+    const result = await accountService.addSavePost(req.session.user._id, req.query.idPost);
+    return res.status(200).send({ result: result.action });
 });
+
+router.post("/verifyOTP", async (req, res) => {
+    console.log(req.body);
+    const number = req.body.phone;
+    const OTP = req.body.otp;
+    const result = await otp.verifyOTP(number, OTP);
+    if (result) {
+        res.render('changepassword', {number});
+    }
+    else res.render('verifyOTP', { number, error: "You use an Expired OTP!" });
+})
+
+router.post("/changepassword", async (req, res) => {
+    const result = await accountService.changePass(req.body.number, req.body.oldPassword, req.body.newPassword);
+    if (result.mess === "Wrong pass"){
+        res.render('changepassword', {number:req.body.number, error: "Sai mật khẩu cũ"});
+    }else res.render('login');
+})
 export default router;

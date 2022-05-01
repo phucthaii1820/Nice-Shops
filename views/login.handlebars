@@ -1,11 +1,11 @@
 <div class="m-auto flex flex-col w-96 shadow-2xl border-2 rounded-md bg-gray-50">
     <div class="px-5 py-14">
-        {{#if error}}
-          <p class="text-red-600 text-xl mb-3">{{error}}</p>
-        {{/if}}
         <form class="mb-3 text-sm" method="post" action="/login">
             <input type="hidden" name="referer" value={{this.referer}}>
             <p class="mb-4 text-2xl text-yellow-500">Đăng nhập</p>
+            {{#if error}}
+                <p class="text-red-600 text-md mb-3">{{error}}</p>
+            {{/if}}
             <input name="phone" class="focus:outline-none border-t border-b border-l border-r p-2 w-full rounded-lg mb-4" type="tel"
                 placeholder="Nhập SĐT của bạn" autocomplete="off" pattern="^\d{10}$" required="required">
             <div class="border-t border-b border-l border-r p-2 w-full rounded-lg flex flex-row mb-4 bg-white">
@@ -15,6 +15,7 @@
             <button class="bg-yellow-500 text-white rounded-lg text-md py-2 w-full" type="submit">Đăng nhập</button>
         </form>
         <div class="flex flex-col text-center">
+            <a href="/forgetpassword"class="text-center cursor-pointer text-blue-800 mb-10">Bạn quên mật khẩu?</a>
             <div class="">hoặc sử dụng</div>
             <div class="mx-auto mb-3">
                 <div class="">

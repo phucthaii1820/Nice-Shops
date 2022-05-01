@@ -1,6 +1,7 @@
 import { mongoose } from 'mongoose';
 import gender from '../config/gender.js';
 import role from '../config/role.js';
+import jwt from 'jsonwebtoken';
 
 const accountSchema = new mongoose.Schema({
     phone:{

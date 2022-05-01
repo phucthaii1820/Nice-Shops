@@ -1,0 +1,15 @@
+<div class="m-auto flex flex-col w-96 shadow-2xl border-2 rounded-md bg-gray-50">
+    <div class="px-5 py-14">
+        <form class="mb-3 text-sm" method="post" action="/verifyOTP">
+            <p class="mb-4 text-2xl text-yellow-500">Xác thực mã OTP</p>
+            {{#if error}}
+                <p class="text-red-600 text-md mb-3">{{this.error}}</p>
+            {{/if}}
+            <input name="phone" class="hidden" value="{{this.number}}">
+            <input name="otp"
+                class="focus:outline-none border-t border-b border-l border-r p-2 w-full rounded-lg mb-4" type="tel"
+                placeholder="Nhập mã OTP" autocomplete="off" pattern="^\d{6}$" required="required">
+            <button class="bg-yellow-500 text-white rounded-lg text-md py-2 w-full" type="submit">Xác thực</button>
+        </form>
+    </div>
+</div>

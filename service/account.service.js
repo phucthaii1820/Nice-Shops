@@ -84,5 +84,12 @@ export default {
     async checkPostMark(id, PostID){
         const result = Account.exists({_id: id, postmark: PostID}).lean();
         return result;
+    },
+    async changePass(phone, oldPass, newPass){
+        const user = await Account.findOne({phone: phone});
+        if(crypto.comparePassword(oldPass,user.password)){
+            await Account.findOneAndUpdate({phone: phone},{password: crypto.hashPassword(newPass)});
+            return {mess: "Success"}; 
+        }else return {mess: "Wrong pass"};
     }
 }
