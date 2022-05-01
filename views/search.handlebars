@@ -3,22 +3,22 @@
     <nav id="store" class="w-full z-0 top-0 px-6 py-1">
         <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
             <div></div>
-            <div class="flex items-center" id="store-nav-content">
-
-                <a class="pl-3 inline-block no-underline hover:text-black" href="#">
-                    <svg class="fill-current hover:text-black" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24">
-                        <path d="M7 11H17V13H7zM4 7H20V9H4zM10 15H14V17H10z" />
-                    </svg>
-                </a>
-
+            <div class="items-center relative inline-block" id="store-nav-content">
+                <div class="dropbtn pl-3 inline-block no-underline hover:text-black cursor-pointer">
+                    <i class="fa fa-sort-amount-desc dropbtn" aria-hidden="true" onclick="myFunction()"></i>
+                </div>
+                <div id="myDropdown" class="dropdown-content absolute -right-5 min-w-max hidden"
+                    style="box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)">
+                    <p class="cursor-pointer sort p-2 hover:bg-cyan-200" id="ascending">Giá tăng dần</p>
+                    <p class="cursor-pointer sort p-2 hover:bg-cyan-200" id="descending">Giá giảm dần</p>
+                </div>
             </div>
         </div>
     </nav>
 
     <div class="flex">
         {{#each this.postData}}
-            {{> product}}
+        {{> product}}
         {{/each}}
     </div>
 
@@ -26,19 +26,21 @@
     <nav class="flex flex-row-reverse mr-3 mt-16 items-center space-x-1" aria-label="Page navigation example">
         <ul class="inline-flex -space-x-px">
             {{#each this.page_numbers}}
-                {{#if isCurrent}}
-                    <li>
-                        <a href="#" class="ml-1 px-4 py-2 text-gray-700 bg-blue-400 rounded-md hover:bg-blue-400 hover:text-white">
-                            {{value}}
-                        </a>
-                    </li>
-                {{else}}
-                    <li>
-                        <a href="?page={{value}}" class="ml-1 px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-blue-400 hover:text-white">
-                        {{value}}
-                        </a>
-                    </li>
-                {{/if}}
+            {{#if isCurrent}}
+            <li>
+                <a href="#"
+                    class="ml-1 px-4 py-2 text-gray-700 bg-blue-400 rounded-md hover:bg-blue-400 hover:text-white">
+                    {{value}}
+                </a>
+            </li>
+            {{else}}
+            <li>
+                <a href="?page={{value}}"
+                    class="ml-1 px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-blue-400 hover:text-white">
+                    {{value}}
+                </a>
+            </li>
+            {{/if}}
             {{/each}}
         </ul>
     </nav>
@@ -53,8 +55,49 @@
             let value = addCommas($(id).text());
             $(id).text(value);
         });
+        $('.sort').click(function () {
+            if (document.URL.includes('sort=1')) {
+                if ($(this).attr('id') === 'ascending') {
+                    window.location.href = document.URL;
+                } else {
+                    window.location.href = document.URL.replace(/sort=1/g, 'sort=2')
+                }
+            } else if (document.URL.includes('sort=2')) {
+                if ($(this).attr('id') === 'ascending') {
+                    window.location.href = document.URL.replace(/sort=2/g, 'sort=1')
+                } else {
+                    window.location.href = document.URL
+                }
+            } else {
+                if (document.URL.includes('?')) {
+                    if ($(this).attr('id') === 'ascending') {
+                        window.location.href = document.URL + '&sort=1'
+                    } else {
+                        window.location.href = document.URL + '&sort=2'
+                    }
+                } else {
+                    if ($(this).attr('id') === 'ascending') {
+                        window.location.href = document.URL + '?sort=1'
+                    } else {
+                        window.location.href = document.URL + '?sort=2'
+                    }
+                }
+            }
+        });
     });
     function addCommas(str) {
         return str.replace(/^0+/, '').replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("hidden");
+    }
+    window.onclick = function (event) {
+        if (!event.target.matches('.dropbtn')) {
+            console.log("A");
+            var dropdowns = document.getElementById("myDropdown");
+            if (!dropdowns.classList.contains('hidden')) {
+                dropdowns.classList.add('hidden');
+            }
+        }
     }
 </script>

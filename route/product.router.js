@@ -1,7 +1,7 @@
 import express from "express";
 import accountService from "../service/account.service.js";
 import productSevice from '../service/product.sevice.js';
-import { mongoose } from 'mongoose';
+import sortService from "../service/sort.service.js";
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ router.get('/byCat/:id', async (req, res) => {
     const CatID = req.params.id || 0;
     const page = req.query.page || 1;
     const limit = 8;
-
+    let currentUrl;
     const quantity = await productSevice.getQuantityOfPost(CatID);
 
     let nPage = Math.floor(quantity / limit);
@@ -25,8 +25,15 @@ router.get('/byCat/:id', async (req, res) => {
         });
     }
 
-   const postData = await productSevice.getListPostPaging(limit * (page - 1), limit, CatID);
-
+    let postData = await productSevice.getListPostPaging(limit * (page - 1), limit, CatID);
+    currentUrl = '';
+    if(req.query.sort == 1) {
+        postData = sortService.sortAscending(postData);
+        currentUrl = 'sort=1';
+    } else if (req.query.sort == 2){
+        postData = sortService.sortDescending(postData);
+        currentUrl = 'sort=2';
+    }
     res.render('search', {
         postData,
         page_numbers
